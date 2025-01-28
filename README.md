@@ -173,7 +173,7 @@ npx degit 'timlrx/tailwind-nextjs-starter-blog'
 ```
 
 2. Personalize `siteMetadata.js` (site related information)
-3. Modify the content security policy in `next.config.js` if you want to use
+3. Modify the content security policy in `next.config.mjs` if you want to use
    other analytics provider or a commenting solution other than giscus.
 4. Personalize `authors/default.md` (main author)
 5. Modify `projectsData.ts`
@@ -236,7 +236,7 @@ Edit the layout in `app` or content in `data`. With live reloading, the pages au
 
 `app` - pages to route to. Read the [Next.js documentation](https://nextjs.org/docs/app) for more information.
 
-`next.config.js` - configuration related to Next.js. You need to adapt the Content Security Policy if you want to load scripts, images etc. from other domains.
+`next.config.mjs` - configuration related to Next.js. You need to adapt the Content Security Policy if you want to load scripts, images etc. from other domains.
 
 ## Post
 
@@ -318,7 +318,7 @@ Then, deploy the generated `out` folder or run `npx serve out` it locally.
 
 Consider removing the following features that cannot be used in a static build:
 
-1. Comment out `headers()` from `next.config.js`.
+1. Comment out `headers()` from `next.config.mjs`.
 2. Remove `api` folder and components which call the server-side function such as the Newsletter component. Not technically required and the site will build successfully, but the APIs cannot be used as they are server-side functions.
 
 ## Frequently Asked Questions
