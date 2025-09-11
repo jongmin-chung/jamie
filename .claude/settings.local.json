@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm update:*)",
+      "Bash(pnpm run:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:tech.kakaopay.com)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

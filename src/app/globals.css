@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  html {
+    background-color: #f8f9fa;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-900;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Malgun Gothic", "맑은 고딕", Dotum, "돋움", Gulim, "굴림";
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f9fa;
+  }
+
+  /* KakaoPay 정확한 색상들 */
+  :root {
+    --kakaopay-bg: #f8f9fa;
+    --kakaopay-card-bg: #ffffff;
+    --kakaopay-text-primary: #212529;
+    --kakaopay-text-secondary: #6c757d;
+    --kakaopay-text-muted: #adb5bd;
+    --kakaopay-border: #dee2e6;
+    --kakaopay-hover: #e9ecef;
+    --kakaopay-link: #007bff;
+    --kakaopay-yellow: #ffeb3b;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--kakaopay-text-primary);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  p {
+    color: var(--kakaopay-text-secondary);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.7;
+  }
+
+  a {
+    color: var(--kakaopay-link);
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+  }
+
+  a:hover {
+    color: #0056b3;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* KakaoPay 스타일 카드 */
+  .kakaopay-card {
+    background-color: var(--kakaopay-card-bg);
+    border: 1px solid var(--kakaopay-border);
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .kakaopay-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #c6cbcf;
+  }
+
+  /* 페이지네이션 스타일 */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 2rem 0;
+  }
+
+  .pagination-item {
+    padding: 8px 12px;
+    color: var(--kakaopay-text-secondary);
+    background-color: transparent;
+    border: 1px solid var(--kakaopay-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .pagination-item:hover {
+    background-color: var(--kakaopay-hover);
+    color: var(--kakaopay-text-primary);
+  }
+
+  .pagination-item.active {
+    background-color: var(--kakaopay-link);
+    color: white;
+    border-color: var(--kakaopay-link);
+  }
+
+  .pagination-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* 태그 스타일 */
+  .tag-item {
+    background-color: var(--kakaopay-hover);
+    color: var(--kakaopay-text-secondary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+
+  .tag-item:hover {
+    background-color: var(--kakaopay-link);
+    color: white;
+  }
+}
