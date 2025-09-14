@@ -1,6 +1,9 @@
 import { remark } from 'remark';
-import remarkHtml from 'remark-html';
 import remarkGfm from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypeSlug from 'rehype-slug';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeStringify from 'rehype-stringify';
 
 /**
  * Parse markdown content and convert to HTML
@@ -15,9 +18,14 @@ export async function parseMarkdown(markdown: string): Promise<string> {
   try {
     const processed = await remark()
       .use(remarkGfm) // GitHub Flavored Markdown
-      .use(remarkHtml, { 
-        sanitize: false // We trust our markdown content
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeSlug) // Add IDs to headings
+      .use(rehypeHighlight, {
+        // Configure syntax highlighting
+        detect: true,
+        subset: ['javascript', 'typescript', 'html', 'css', 'json', 'bash']
       })
+      .use(rehypeStringify, { allowDangerousHtml: true })
       .process(markdown);
 
     return processed.toString();

@@ -1,0 +1,81 @@
+/* Custom code highlighting styles */
+
+/* Override highlight.js background to match our design */
+.prose pre code.hljs {
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Ensure inline code has different styling */
+.prose :not(pre) > code {
+  background: hsl(var(--muted)) !important;
+  color: hsl(var(--primary)) !important;
+  font-weight: 600;
+  font-size: 0.875em;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  border: none;
+}
+
+/* Make sure pre blocks are properly styled */
+.prose pre {
+  background: #0d1117 !important;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+/* Add language label styling */
+.prose pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  z-index: 1;
+}
+
+/* Position relative for language labels */
+.prose pre {
+  position: relative;
+}
+
+/* Scrollbar styling for code blocks */
+.prose pre::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.prose pre::-webkit-scrollbar-track {
+  background: #21262d;
+  border-radius: 0.25rem;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 0.25rem;
+}
+
+.prose pre::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* Copy button positioning */
+.prose pre + .copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.prose pre:hover + .copy-button,
+.copy-button:hover {
+  opacity: 1;
+}

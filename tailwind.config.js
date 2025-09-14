@@ -114,6 +114,9 @@ const config: Config = {
           color: 'inherit',
           fontWeight: '600',
         },
+        '.border-l-3': {
+          borderLeftWidth: '3px',
+        },
       })
     }),
   ],

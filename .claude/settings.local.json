@@ -8,7 +8,14 @@
       "Bash(find:*)",
       "Bash(grep:*)",
       "WebFetch(domain:tech.kakaopay.com)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(scripts/check-task-prerequisites.sh:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm test:*)",
+      "Bash(chmod:*)",
+      "Bash(node:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": []
