@@ -1,0 +1,67 @@
+# jamie Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-09-11
+
+## Active Technologies
+- **Korean Tech Blog Site** (001-https-tech-kakaopay):
+  - Next.js 15+ with App Router
+  - React 19+ with TypeScript
+  - shadcn/ui + Tailwind CSS
+  - Static markdown content processing
+  - Client-side search with flexsearch
+  - Playwright E2E testing
+  - pnpm
+
+## Project Structure
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Homepage
+│   ├── blog/              # Blog routes
+│   └── layout.tsx         # Root layout
+├── components/
+│   ├── ui/               # shadcn/ui components  
+│   ├── BlogCard.tsx      # Post preview
+│   ├── SearchBox.tsx     # Search functionality
+│   └── Layout.tsx        # Site layout
+├── lib/
+│   ├── markdown.ts       # Content processing
+│   ├── search.ts         # Search utilities
+│   └── utils.ts          # General utilities
+└── types/                # TypeScript definitions
+
+content/posts/            # Markdown blog posts
+tests/                    # Jest + Playwright tests
+```
+
+## Commands
+```bash
+pnpm run dev              # Start development server
+pnpm run build            # Generate static site  
+pnpm run test             # Run all tests
+pnpm run lint             # ESLint + Prettier
+pnpm run type-check       # TypeScript validation
+pnpx playwright test      # E2E testing
+```
+
+## Code Style
+- TypeScript for type safety
+- Tailwind CSS for styling (mobile-first)
+- shadcn/ui component patterns
+- Korean language support in content
+- Static site generation (SSG)
+- Client-side search implementation
+
+## Testing Strategy
+- Component tests: Jest + React Testing Library
+- E2E tests: Playwright with Korean text support
+- Test Korean search functionality
+- Mobile responsive design testing
+- Performance benchmarks (page load < 2s)
+
+## Recent Changes
+- 001-https-tech-kakaopay: Added Korean blog site with Next.js + shadcn/ui + client-side search
+
+<!-- MANUAL ADDITIONS START -->
+<!-- Add any manual customizations here - they will be preserved during updates -->
+<!-- MANUAL ADDITIONS END -->

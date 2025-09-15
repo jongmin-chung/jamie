@@ -1,0 +1,37 @@
+[
+  {
+    "id": "frontend",
+    "name": "프론트엔드",
+    "postCount": 4
+  },
+  {
+    "id": "backend",
+    "name": "백엔드",
+    "postCount": 0
+  },
+  {
+    "id": "deployment",
+    "name": "배포",
+    "postCount": 1
+  },
+  {
+    "id": "design",
+    "name": "디자인",
+    "postCount": 0
+  },
+  {
+    "id": "career",
+    "name": "커리어",
+    "postCount": 0
+  },
+  {
+    "id": "trends",
+    "name": "트렌드",
+    "postCount": 0
+  },
+  {
+    "id": "devops",
+    "name": "데브옵스",
+    "postCount": 0
+  }
+]
