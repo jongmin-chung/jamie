@@ -2,24 +2,14 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { BlogPostPreview } from '@/types/blog';
-import { Clock, User, ArrowRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Clock, User } from 'lucide-react';
+import { cn, getCardClasses } from '@/lib/theme/utils';
 
 interface BlogCardProps {
   post: BlogPostPreview;
   className?: string;
 }
 
-const getCategoryColor = (category: string) => {
-  const colors = {
-    'Development': 'bg-primary/10 text-primary',
-    'Design': 'bg-purple-50 text-purple-700', 
-    'Career': 'bg-green-50 text-green-700',
-    'Tech': 'bg-orange-50 text-orange-700',
-    'Trend': 'bg-pink-50 text-pink-700',
-  };
-  return colors[category as keyof typeof colors] || 'bg-muted text-muted-foreground';
-};
 
 export function BlogCard({ post, className }: BlogCardProps) {
   const formattedDate = format(post.publishedAt, 'M월 d일', { locale: ko });
@@ -27,23 +17,20 @@ export function BlogCard({ post, className }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
       <article className={cn(
-        'card-hover bg-card border border-border overflow-hidden h-full shadow-card',
-        'rounded-xl group-hover:shadow-card-hover',
+        getCardClasses('article'),
+        'overflow-hidden h-full hover:opacity-75 transition-opacity',
         className
       )}>
-        {/* Visual placeholder for thumbnail - you can replace with actual images later */}
-        <div className="h-48 bg-gradient-to-br from-muted/50 to-muted relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/5 to-transparent" />
+        {/* Image with 16:9 aspect ratio as per theme spec */}
+        <div className="aspect-video bg-gradient-to-br from-kakao-light-gray to-kakao-medium-gray relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           <div className="absolute top-4 left-4">
-            <span className={cn(
-              'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium',
-              getCategoryColor(post.category)
-            )}>
+            <span className="inline-flex items-center px-3 py-1 text-xs font-medium text-kakao-dark-text bg-kakao-yellow font-noto-sans-kr">
               {post.category}
             </span>
           </div>
           <div className="absolute bottom-4 left-4 right-4">
-            <div className="flex items-center justify-between text-card-foreground/80 text-xs">
+            <div className="flex items-center justify-between text-kakao-text-dark-48 text-xs font-noto-sans-kr">
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-1">
                   <User size={12} />
@@ -59,39 +46,33 @@ export function BlogCard({ post, className }: BlogCardProps) {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-primary transition-colors text-card-foreground korean-text">
+        {/* Content with zero padding as per theme spec */}
+        <div className="pt-6">
+          <h3 className="text-lg font-semibold leading-tight mb-3 text-kakao-dark-text font-noto-sans-kr line-clamp-2">
             {post.title}
           </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2 korean-text">
+          <p className="text-sm text-kakao-text-dark-48 leading-relaxed mb-4 line-clamp-2 font-noto-sans-kr">
             {post.description}
           </p>
           
-          {/* Tags */}
+          {/* Tags with KakaoPay styling */}
           {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2">
               {post.tags.slice(0, 2).map((tag) => (
                 <span 
                   key={tag} 
-                  className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground"
+                  className="inline-flex items-center px-2 py-1 text-xs font-medium text-kakao-text-dark-48 bg-kakao-light-gray font-noto-sans-kr"
                 >
                   {tag}
                 </span>
               ))}
               {post.tags.length > 2 && (
-                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground">
+                <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-kakao-text-dark-48 bg-kakao-light-gray font-noto-sans-kr">
                   +{post.tags.length - 2}
                 </span>
               )}
             </div>
           )}
-
-          {/* Read more */}
-          <div className="flex items-center text-primary text-sm font-medium group-hover:text-primary/80 transition-colors">
-            <span>더 읽기</span>
-            <ArrowRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
-          </div>
         </div>
       </article>
     </Link>

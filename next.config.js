@@ -9,6 +9,10 @@ const nextConfig = {
       {
         protocol: 'https', 
         hostname: '**.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'tech.kakaopay.com',
       }
     ],
     formats: ['image/avif', 'image/webp'],

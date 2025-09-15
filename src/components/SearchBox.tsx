@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
+import { getButtonClasses, cn } from '@/lib/theme/utils';
 
 interface SearchBoxProps {
   onSearch: (query: string) => void;
@@ -71,8 +72,7 @@ export function SearchBox({
       <div className="relative">
         <Search 
           size={18} 
-          className="absolute left-3 top-1/2 -translate-y-1/2"
-          style={{ color: 'var(--kakaopay-text-muted)' }}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-kakao-text-dark-48"
         />
         <input
           type="text"
@@ -81,22 +81,17 @@ export function SearchBox({
           onKeyPress={handleKeyPress}
           placeholder={placeholder}
           disabled={isLoading}
-          className="w-full pl-10 pr-10 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          style={{ 
-            borderColor: 'var(--kakaopay-border)',
-            backgroundColor: 'var(--kakaopay-card-bg)',
-            color: 'var(--kakaopay-text-primary)',
-          }}
+          className="w-full pl-10 pr-10 py-3 bg-transparent border border-kakao-medium-gray rounded-none text-kakao-dark-text placeholder:text-kakao-text-dark-48 focus:outline-none focus:border-kakao-yellow transition-colors font-noto-sans-kr"
         />
         
-        {/* Clear button */}
+        {/* Clear button with KakaoPay styling */}
         {value && !isLoading && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+            className={cn(getButtonClasses('secondary'), 'absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-kakao-light-gray transition-colors')}
           >
-            <X size={16} style={{ color: 'var(--kakaopay-text-muted)' }} />
+            <X size={16} className="text-kakao-text-dark-48" />
           </button>
         )}
 

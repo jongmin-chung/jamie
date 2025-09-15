@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { navigation, getContainerClasses, cn } from '@/lib/theme/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,62 +11,53 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--kakaopay-bg)' }}>
-      {/* KakaoPay 정확한 헤더 스타일 */}
-      <header className="bg-white border-b" style={{ borderColor: 'var(--kakaopay-border)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      {/* KakaoPay Header with exact styling from theme data */}
+      <header className={cn(navigation.header)}>
+        <div className={getContainerClasses('default')}>
+          <div className="flex items-center justify-between h-full">
             <Link 
               href="/" 
-              className="text-2xl font-semibold"
-              style={{ color: 'var(--kakaopay-text-primary)' }}
+              className="flex items-center"
             >
-              Tech Log
+              <Image 
+                src="https://tech.kakaopay.com/_astro/thumb.42fc3b96_1Bju8W.avif"
+                alt="카카오페이"
+                width={32}
+                height={32}
+                className={navigation.logo}
+              />
             </Link>
             
-            {/* 채용 링크들 (KakaoPay와 동일) */}
-            <div className="hidden md:flex items-center space-x-6">
-              <a
-                href="#"
-                className="text-sm font-medium hover:underline"
-                style={{ color: 'var(--kakaopay-text-secondary)' }}
+            {/* Navigation items from theme data */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link
+                href="/blog"
+                className={navigation.item}
               >
-                카카오페이 채용
-              </a>
-              <a
-                href="#"
-                className="text-sm font-medium hover:underline"
-                style={{ color: 'var(--kakaopay-text-secondary)' }}
+                Tech Log
+              </Link>
+              <Link
+                href="/career"
+                className={navigation.item}
               >
-                카카오페이증권 채용
-              </a>
-              <a
-                href="#"
-                className="text-sm font-medium hover:underline"
-                style={{ color: 'var(--kakaopay-text-secondary)' }}
-              >
-                카카오페이보험 채용
-              </a>
+                Career
+              </Link>
+              {/* Search button from theme data */}
+              <button className="text-white hover:text-kakao-yellow transition-colors font-noto-sans-kr">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 메인 콘텐츠 */}
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      {/* Main content with proper spacing */}
+      <main className="pt-21">
         {children}
       </main>
-
-      {/* 푸터 */}
-      <footer className="bg-white border-t mt-20" style={{ borderColor: 'var(--kakaopay-border)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="text-center">
-            <p className="text-sm" style={{ color: 'var(--kakaopay-text-muted)' }}>
-              © 2025 Kakao Pay Corp. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

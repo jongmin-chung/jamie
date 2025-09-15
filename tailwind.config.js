@@ -13,12 +13,13 @@ const config: Config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px", // KakaoPay max width
       },
     },
     extend: {
       fontFamily: {
         sans: [
+          '"Noto Sans KR"',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -41,6 +42,7 @@ const config: Config = {
           'Gulim',
           '굴림',
         ],
+        'noto-sans-kr': ['"Noto Sans KR"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -76,6 +78,21 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // KakaoPay Theme Colors
+        kakao: {
+          yellow: "#FFEB00",
+          'dark-text': "#060B11",
+          white: "#FFFFFF",
+          'light-gray': "#EFF2F4",
+          'medium-gray': "#E3E8EC",
+          'text-white-48': "rgba(255, 255, 255, 0.48)",
+          'text-dark-48': "rgba(6, 11, 17, 0.48)",
+        },
+      },
+      spacing: {
+        // KakaoPay spacing system (24px base)
+        '6': '24px',  // base spacing
+        '21': '84px', // header height
       },
       borderRadius: {
         lg: "var(--radius)",
