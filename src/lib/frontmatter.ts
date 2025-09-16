@@ -1,5 +1,5 @@
-import matter from 'gray-matter';
-import { FrontmatterData, ParsedPost } from '@/types/blog';
+import matter from 'gray-matter'
+import { FrontmatterData, ParsedPost } from '@/types/blog'
 
 /**
  * Parse frontmatter from markdown content
@@ -11,22 +11,22 @@ export function parseFrontmatter(markdown: string): ParsedPost {
     return {
       data: {} as FrontmatterData,
       content: ''
-    };
+    }
   }
 
   try {
-    const parsed = matter(markdown);
+    const parsed = matter(markdown)
     
     return {
       data: parsed.data as FrontmatterData,
       content: parsed.content
-    };
+    }
   } catch (error) {
-    console.error('Error parsing frontmatter:', error);
+    console.error('Error parsing frontmatter:', error)
     return {
       data: {} as FrontmatterData,
       content: markdown
-    };
+    }
   }
 }
 
@@ -37,46 +37,46 @@ export function parseFrontmatter(markdown: string): ParsedPost {
  */
 export function validateFrontmatter(data: unknown): data is FrontmatterData {
   if (!data || typeof data !== 'object') {
-    return false;
+    return false
   }
 
-  const dataObj = data as Record<string, unknown>;
+  const dataObj = data as Record<string, unknown>
 
   // Required fields
-  const requiredFields = ['title', 'publishedAt'];
+  const requiredFields = ['title', 'publishedAt']
   for (const field of requiredFields) {
     if (!dataObj[field]) {
-      return false;
+      return false
     }
   }
 
   // Type checks
   if (typeof dataObj.title !== 'string' || (dataObj.title as string).trim() === '') {
-    return false;
+    return false
   }
 
   if (typeof dataObj.publishedAt !== 'string') {
-    return false;
+    return false
   }
 
   // Optional fields type checks
   if (dataObj.description && typeof dataObj.description !== 'string') {
-    return false;
+    return false
   }
 
   if (dataObj.category && typeof dataObj.category !== 'string') {
-    return false;
+    return false
   }
 
   if (dataObj.tags && !Array.isArray(dataObj.tags)) {
-    return false;
+    return false
   }
 
   if (dataObj.author && typeof dataObj.author !== 'string') {
-    return false;
+    return false
   }
 
-  return true;
+  return true
 }
 
 /**
@@ -85,7 +85,7 @@ export function validateFrontmatter(data: unknown): data is FrontmatterData {
  * @returns FrontmatterData - Complete frontmatter with defaults
  */
 export function applyFrontmatterDefaults(data: Partial<FrontmatterData>): FrontmatterData {
-  const now = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  const now = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
 
   return {
     title: data.title || 'Untitled',
@@ -95,7 +95,7 @@ export function applyFrontmatterDefaults(data: Partial<FrontmatterData>): Frontm
     category: data.category || 'general',
     tags: data.tags || [],
     author: data.author || 'Anonymous'
-  };
+  }
 }
 
 /**
@@ -112,16 +112,16 @@ export function stringifyFrontmatter(data: FrontmatterData): string {
     category: data.category,
     tags: data.tags,
     author: data.author
-  };
+  }
 
   const yamlString = Object.entries(yamlData)
     .map(([key, value]) => {
       if (Array.isArray(value)) {
-        return `${key}: [${value.map(v => `"${v}"`).join(', ')}]`;
+        return `${key}: [${value.map(v => `"${v}"`).join(', ')}]`
       }
-      return `${key}: "${value}"`;
+      return `${key}: "${value}"`
     })
-    .join('\n');
+    .join('\n')
 
-  return `---\n${yamlString}\n---`;
+  return `---\n${yamlString}\n---`
 }

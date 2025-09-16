@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useState, ReactNode } from 'react';
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, ReactNode } from 'react'
+import { ChevronDown, ChevronRight } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface CollapsibleSectionProps {
   title: string;
@@ -17,7 +17,7 @@ export function CollapsibleSection({
   defaultOpen = false,
   className 
 }: CollapsibleSectionProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
     <div className={cn("border border-border rounded-lg overflow-hidden", className)}>
@@ -39,5 +39,5 @@ export function CollapsibleSection({
         </div>
       )}
     </div>
-  );
+  )
 }

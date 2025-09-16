@@ -30,7 +30,7 @@ export const CATEGORIES: CategoryInfo = {
   career: '커리어',
   trends: '트렌드',
   devops: '데브옵스',
-};
+}
 
 export const CATEGORY_COLORS: Record<string, string> = {
   frontend: '#3B82F6', // blue
@@ -40,7 +40,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   career: '#6366F1',   // indigo
   trends: '#EF4444',   // red
   devops: '#8B5CF6',   // violet
-};
+}
 
 export interface ContentStats {
   totalPosts: number;

@@ -1,6 +1,6 @@
-import { BlogPost } from '@/types/blog';
-import { SearchIndex, SearchIndexItem } from '@/types/search';
-import { extractPlainText } from './markdown';
+import { BlogPost } from '@/types/blog'
+import { SearchIndex, SearchIndexItem } from '@/types/search'
+import { extractPlainText } from './markdown'
 
 /**
  * Generate search index from blog posts
@@ -16,7 +16,7 @@ export function generateSearchIndex(posts: BlogPost[]): SearchIndex {
     category: post.category,
     tags: post.tags,
     publishedAt: post.publishedAt.toISOString().split('T')[0] // YYYY-MM-DD format
-  }));
+  }))
 }
 
 /**
@@ -34,12 +34,12 @@ export function addToSearchIndex(index: SearchIndex, post: BlogPost): SearchInde
     category: post.category,
     tags: post.tags,
     publishedAt: post.publishedAt.toISOString().split('T')[0]
-  };
+  }
 
   // Remove existing item if it exists
-  const filteredIndex = index.filter(item => item.id !== post.slug);
+  const filteredIndex = index.filter(item => item.id !== post.slug)
   
-  return [...filteredIndex, newItem];
+  return [...filteredIndex, newItem]
 }
 
 /**
@@ -49,7 +49,7 @@ export function addToSearchIndex(index: SearchIndex, post: BlogPost): SearchInde
  * @returns SearchIndex - Updated search index
  */
 export function removeFromSearchIndex(index: SearchIndex, slug: string): SearchIndex {
-  return index.filter(item => item.id !== slug);
+  return index.filter(item => item.id !== slug)
 }
 
 /**
@@ -59,7 +59,7 @@ export function removeFromSearchIndex(index: SearchIndex, slug: string): SearchI
  * @returns SearchIndex - Updated search index
  */
 export function updateSearchIndex(index: SearchIndex, post: BlogPost): SearchIndex {
-  return addToSearchIndex(index, post);
+  return addToSearchIndex(index, post)
 }
 
 /**
@@ -68,23 +68,23 @@ export function updateSearchIndex(index: SearchIndex, post: BlogPost): SearchInd
  * @returns Object with index statistics
  */
 export function getSearchIndexStats(index: SearchIndex) {
-  const totalItems = index.length;
-  const categories = [...new Set(index.map(item => item.category))];
-  const allTags = index.flatMap(item => item.tags);
-  const uniqueTags = [...new Set(allTags)];
+  const totalItems = index.length
+  const categories = [...new Set(index.map(item => item.category))]
+  const allTags = index.flatMap(item => item.tags)
+  const uniqueTags = [...new Set(allTags)]
   
   const categoryCount = categories.reduce((acc, category) => {
-    acc[category] = index.filter(item => item.category === category).length;
-    return acc;
-  }, {} as Record<string, number>);
+    acc[category] = index.filter(item => item.category === category).length
+    return acc
+  }, {} as Record<string, number>)
 
   const tagCount = uniqueTags.reduce((acc, tag) => {
-    acc[tag] = allTags.filter(t => t === tag).length;
-    return acc;
-  }, {} as Record<string, number>);
+    acc[tag] = allTags.filter(t => t === tag).length
+    return acc
+  }, {} as Record<string, number>)
 
-  const totalContentLength = index.reduce((sum, item) => sum + item.content.length, 0);
-  const averageContentLength = Math.round(totalContentLength / totalItems);
+  const totalContentLength = index.reduce((sum, item) => sum + item.content.length, 0)
+  const averageContentLength = Math.round(totalContentLength / totalItems)
 
   return {
     totalItems,
@@ -94,7 +94,7 @@ export function getSearchIndexStats(index: SearchIndex) {
     tagDistribution: tagCount,
     averageContentLength,
     indexSize: JSON.stringify(index).length
-  };
+  }
 }
 
 /**
@@ -104,7 +104,7 @@ export function getSearchIndexStats(index: SearchIndex) {
  */
 export function validateSearchIndex(index: SearchIndex): boolean {
   if (!Array.isArray(index)) {
-    return false;
+    return false
   }
 
   return index.every(item => {
@@ -116,8 +116,8 @@ export function validateSearchIndex(index: SearchIndex): boolean {
       typeof item.category === 'string' &&
       Array.isArray(item.tags) &&
       typeof item.publishedAt === 'string'
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -128,18 +128,18 @@ export function validateSearchIndex(index: SearchIndex): boolean {
 export function optimizeSearchIndex(index: SearchIndex): SearchIndex {
   // Remove duplicates based on id
   const uniqueItems = index.reduce((acc, current) => {
-    const existing = acc.find(item => item.id === current.id);
+    const existing = acc.find(item => item.id === current.id)
     if (!existing) {
-      acc.push(current);
+      acc.push(current)
     }
-    return acc;
-  }, [] as SearchIndex);
+    return acc
+  }, [] as SearchIndex)
 
   // Filter out items with empty or very short content
   return uniqueItems.filter(item => 
     item.title.trim() !== '' &&
     item.content.trim().length > 10 // Minimum content length
-  );
+  )
 }
 
 /**
@@ -148,8 +148,8 @@ export function optimizeSearchIndex(index: SearchIndex): SearchIndex {
  * @returns string - JSON string
  */
 export function serializeSearchIndex(index: SearchIndex): string {
-  const optimizedIndex = optimizeSearchIndex(index);
-  return JSON.stringify(optimizedIndex, null, 0); // No pretty printing for smaller size
+  const optimizedIndex = optimizeSearchIndex(index)
+  return JSON.stringify(optimizedIndex, null, 0) // No pretty printing for smaller size
 }
 
 /**
@@ -159,10 +159,10 @@ export function serializeSearchIndex(index: SearchIndex): string {
  */
 export function deserializeSearchIndex(jsonString: string): SearchIndex {
   try {
-    const parsed = JSON.parse(jsonString);
-    return validateSearchIndex(parsed) ? parsed : [];
+    const parsed = JSON.parse(jsonString)
+    return validateSearchIndex(parsed) ? parsed : []
   } catch (error) {
-    console.error('Error parsing search index JSON:', error);
-    return [];
+    console.error('Error parsing search index JSON:', error)
+    return []
   }
 }

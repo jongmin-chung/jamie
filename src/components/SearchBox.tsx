@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React, { useState, useCallback, useEffect } from 'react';
-import { Search, X } from 'lucide-react';
-import { getButtonClasses, cn } from '@/lib/theme/utils';
+import React, { useState, useCallback, useEffect } from 'react'
+import { Search, X } from 'lucide-react'
+import { getButtonClasses, cn } from '@/lib/theme/utils'
 
 interface SearchBoxProps {
   onSearch: (query: string) => void;
@@ -19,53 +19,53 @@ export function SearchBox({
   debounceMs = 300,
   isLoading = false,
 }: SearchBoxProps) {
-  const [value, setValue] = useState(initialQuery);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [value, setValue] = useState(initialQuery)
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
 
   // Debounced search function
   const debouncedSearch = useCallback((searchTerm: string) => {
     if (timeoutId) {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
     }
 
     const newTimeoutId = setTimeout(() => {
-      onSearch(searchTerm);
-    }, debounceMs);
+      onSearch(searchTerm)
+    }, debounceMs)
 
-    setTimeoutId(newTimeoutId);
-  }, [onSearch, debounceMs, timeoutId]);
+    setTimeoutId(newTimeoutId)
+  }, [onSearch, debounceMs, timeoutId])
 
   // Handle input change
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    debouncedSearch(newValue);
-  }, [debouncedSearch]);
+    const newValue = e.target.value
+    setValue(newValue)
+    debouncedSearch(newValue)
+  }, [debouncedSearch])
 
   // Handle clear button click
   const handleClear = useCallback(() => {
-    setValue('');
-    onSearch('');
-  }, [onSearch]);
+    setValue('')
+    onSearch('')
+  }, [onSearch])
 
   // Handle Enter key press
   const handleKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (timeoutId) {
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutId)
       }
-      onSearch(value);
+      onSearch(value)
     }
-  }, [onSearch, value, timeoutId]);
+  }, [onSearch, value, timeoutId])
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (timeoutId) {
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutId)
       }
-    };
-  }, [timeoutId]);
+    }
+  }, [timeoutId])
 
   return (
     <div className="relative">
@@ -106,5 +106,5 @@ export function SearchBox({
         )}
       </div>
     </div>
-  );
+  )
 }

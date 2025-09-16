@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { footer } from '@/lib/theme/utils';
-import { kakaoPayTheme } from '@/lib/theme/kakaopay-theme';
+import React from 'react'
+import { footer } from '@/lib/theme/utils'
+import { kakaoPayTheme } from '@/lib/theme/kakaopay-theme'
 
-export function Footer() {
-  const footerData = kakaoPayTheme.components.footer;
+export default function Footer() {
+  const footerData = kakaoPayTheme.components.footer
 
   return (
     <footer className={footer.container}>
@@ -33,5 +33,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

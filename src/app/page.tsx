@@ -1,15 +1,15 @@
-import { getAllPosts } from '@/lib/content';
-import { Hero } from '@/components/Hero';
-import { BlogCard } from '@/components/BlogCard';
-import { getContainerClasses, getGridClasses, getTypographyClasses, cn } from '@/lib/theme/utils';
+import { getAllPosts } from '@/lib/content'
+import { Hero } from '@/components/Hero'
+import { BlogCard } from '@/components/BlogCard'
+import { getContainerClasses, getGridClasses, getTypographyClasses, cn } from '@/lib/theme/utils'
 
-const RECENT_POSTS_COUNT = 6;
-const ALL_POSTS_COUNT = 12;
+const RECENT_POSTS_COUNT = 6
+const ALL_POSTS_COUNT = 12
 
 export default function HomePage() {
-  const allPosts = getAllPosts();
-  const recentPosts = allPosts.slice(0, RECENT_POSTS_COUNT);
-  const displayedPosts = allPosts.slice(0, ALL_POSTS_COUNT);
+  const allPosts = getAllPosts()
+  const recentPosts = allPosts.slice(0, RECENT_POSTS_COUNT)
+  const displayedPosts = allPosts.slice(0, ALL_POSTS_COUNT)
 
   return (
     <>
@@ -45,5 +45,5 @@ export default function HomePage() {
         </section>
       </div>
     </>
-  );
+  )
 }

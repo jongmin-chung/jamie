@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { BlogPostPreview } from '@/types/blog';
-import { Clock, User } from 'lucide-react';
-import { cn, getCardClasses } from '@/lib/theme/utils';
+import Link from 'next/link'
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import { BlogPostPreview } from '@/types/blog'
+import { Clock, User } from 'lucide-react'
+import { cn, getCardClasses } from '@/lib/theme/utils'
 
 interface BlogCardProps {
   post: BlogPostPreview;
@@ -12,7 +12,7 @@ interface BlogCardProps {
 
 
 export function BlogCard({ post, className }: BlogCardProps) {
-  const formattedDate = format(post.publishedAt, 'M월 d일', { locale: ko });
+  const formattedDate = format(post.publishedAt, 'M월 d일', { locale: ko })
 
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
@@ -76,5 +76,5 @@ export function BlogCard({ post, className }: BlogCardProps) {
         </div>
       </article>
     </Link>
-  );
+  )
 }

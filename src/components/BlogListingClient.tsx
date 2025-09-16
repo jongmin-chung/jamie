@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { createSearchEngine, searchPosts } from '@/lib/search';
-import { SearchBox } from '@/components/SearchBox';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import { createSearchEngine, searchPosts } from '@/lib/search'
+import { SearchBox } from '@/components/SearchBox'
 
 interface BlogListingClientProps {
   initialPosts: {
@@ -33,18 +33,18 @@ interface BlogListingClientProps {
   initialSearchQuery?: string;
 }
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 10
 
 export function BlogListingClient({ 
   initialPosts, 
   allPosts, 
   initialSearchQuery 
 }: BlogListingClientProps) {
-  const [displayPosts, setDisplayPosts] = useState(initialPosts);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isSearching, setIsSearching] = useState(false);
-  const [currentQuery, setCurrentQuery] = useState(initialSearchQuery || '');
-  const [searchEngine, setSearchEngine] = useState<ReturnType<typeof createSearchEngine> | null>(null);
+  const [displayPosts, setDisplayPosts] = useState(initialPosts)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isSearching, setIsSearching] = useState(false)
+  const [currentQuery, setCurrentQuery] = useState(initialSearchQuery || '')
+  const [searchEngine, setSearchEngine] = useState<ReturnType<typeof createSearchEngine> | null>(null)
 
   // 검색 엔진 초기화
   useEffect(() => {
@@ -56,29 +56,29 @@ export function BlogListingClient({
       category: post.category,
       tags: post.tags,
       publishedAt: post.publishedAt
-    }));
-    const engine = createSearchEngine(searchData);
-    setSearchEngine(engine);
-  }, [allPosts]);
+    }))
+    const engine = createSearchEngine(searchData)
+    setSearchEngine(engine)
+  }, [allPosts])
 
   // 검색 처리
   const handleSearch = async (query: string) => {
-    setCurrentQuery(query);
-    setCurrentPage(1);
+    setCurrentQuery(query)
+    setCurrentPage(1)
     
     if (!query.trim()) {
-      setDisplayPosts(initialPosts);
-      setIsSearching(false);
-      return;
+      setDisplayPosts(initialPosts)
+      setIsSearching(false)
+      return
     }
 
-    setIsSearching(true);
+    setIsSearching(true)
     
     if (searchEngine) {
-      const searchResults = await searchPosts(searchEngine, query);
+      const searchResults = await searchPosts(searchEngine, query)
       // 검색 결과를 기존 포스트 형식으로 변환
       const matchedPosts = searchResults.map(result => {
-        const originalPost = allPosts.find(post => post.slug === result.id);
+        const originalPost = allPosts.find(post => post.slug === result.id)
         return originalPost || {
           slug: result.id,
           title: result.title,
@@ -88,25 +88,25 @@ export function BlogListingClient({
           tags: result.tags,
           author: '작성자',
           readingTime: 5
-        };
-      });
-      setDisplayPosts(matchedPosts);
+        }
+      })
+      setDisplayPosts(matchedPosts)
     }
     
-    setIsSearching(false);
-  };
+    setIsSearching(false)
+  }
 
   // 페이지네이션 계산
-  const totalPages = Math.ceil(displayPosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(displayPosts.length / POSTS_PER_PAGE)
   const paginatedPosts = displayPosts.slice(
     (currentPage - 1) * POSTS_PER_PAGE,
     currentPage * POSTS_PER_PAGE
-  );
+  )
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <div>
@@ -198,8 +198,8 @@ export function BlogListingClient({
           </button>
           
           {Array.from({ length: Math.min(10, totalPages) }, (_, i) => {
-            const page = i + 1;
-            const isActive = page === currentPage;
+            const page = i + 1
+            const isActive = page === currentPage
             
             return (
               <button
@@ -209,7 +209,7 @@ export function BlogListingClient({
               >
                 {page}
               </button>
-            );
+            )
           })}
           
           {totalPages > 10 && currentPage < totalPages - 5 && (
@@ -234,5 +234,5 @@ export function BlogListingClient({
         </div>
       )}
     </div>
-  );
+  )
 }

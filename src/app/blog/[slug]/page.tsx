@@ -1,16 +1,16 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { getPostBySlug, getRelatedPosts } from '@/lib/content';
-import { parseMarkdown } from '@/lib/markdown';
-import { BlogCard } from '@/components/BlogCard';
-import { TableOfContents } from '@/components/TableOfContents';
-import { MobileTableOfContents } from '@/components/MobileTableOfContents';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
-import type { Metadata } from 'next';
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import { getPostBySlug, getRelatedPosts } from '@/lib/content'
+import { parseMarkdown } from '@/lib/markdown'
+import { BlogCard } from '@/components/BlogCard'
+import { TableOfContents } from '@/components/TableOfContents'
+import { MobileTableOfContents } from '@/components/MobileTableOfContents'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Calendar, Clock, User } from 'lucide-react'
+import type { Metadata } from 'next'
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -19,14 +19,14 @@ interface BlogPostPageProps {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const { slug } = await params
+  const post = getPostBySlug(slug)
 
   if (!post) {
     return {
       title: '페이지를 찾을 수 없습니다',
       description: '요청하신 블로그 포스트를 찾을 수 없습니다.'
-    };
+    }
   }
 
   return {
@@ -45,29 +45,29 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title: post.title,
       description: post.description,
     }
-  };
+  }
 }
 
 export async function generateStaticParams() {
-  const { getAllPosts } = await import('@/lib/content');
-  const posts = getAllPosts();
+  const { getAllPosts } = await import('@/lib/content')
+  const posts = getAllPosts()
   
   return posts.map((post) => ({
     slug: post.slug,
-  }));
+  }))
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const { slug } = await params
+  const post = getPostBySlug(slug)
 
   if (!post) {
-    notFound();
+    notFound()
   }
 
-  const htmlContent = await parseMarkdown(post.content);
-  const relatedPosts = getRelatedPosts(post, 3);
-  const formattedDate = format(post.publishedAt, 'yyyy년 M월 d일', { locale: ko });
+  const htmlContent = await parseMarkdown(post.content)
+  const relatedPosts = getRelatedPosts(post, 3)
+  const formattedDate = format(post.publishedAt, 'yyyy년 M월 d일', { locale: ko })
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -233,5 +233,5 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Mobile TOC */}
       <MobileTableOfContents content={htmlContent} />
     </div>
-  );
+  )
 }

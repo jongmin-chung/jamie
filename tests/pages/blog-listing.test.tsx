@@ -1,6 +1,6 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
-import BlogListingPage from '@/app/blog/page';
+import BlogListPage from '@/app/blog/page';
 
 // Mock the content loading and search functions
 jest.mock('@/lib/content', () => ({
@@ -54,7 +54,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should render page title', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const pageTitle = screen.getByText(/블로그|Blog Posts/);
     expect(pageTitle).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should display all blog posts by default', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     expect(screen.getByText('React Hooks 완전 가이드')).toBeInTheDocument();
     expect(screen.getByText('TypeScript 기초')).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should show search functionality', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const searchBox = screen.getByPlaceholderText(/검색/);
     expect(searchBox).toBeInTheDocument();
@@ -79,7 +79,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should filter posts by category', async () => {
     const mockSearchParams = { category: 'frontend' };
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     expect(screen.getByText('React Hooks 완전 가이드')).toBeInTheDocument();
     expect(screen.getByText('TypeScript 기초')).toBeInTheDocument();
@@ -88,7 +88,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should display category filters', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const frontendCategory = screen.getByText(/frontend/);
     const deploymentCategory = screen.getByText(/deployment/);
@@ -102,7 +102,7 @@ describe('Blog Listing Page Integration', () => {
     searchPosts.mockReturnValue([mockPosts[0]]); // Return only React post
 
     const mockSearchParams = { search: 'React' };
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     expect(screen.getByText('React Hooks 완전 가이드')).toBeInTheDocument();
   });
@@ -118,7 +118,7 @@ describe('Blog Listing Page Integration', () => {
     getAllPosts.mockReturnValue(manyPosts);
 
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     // Should show pagination controls
     const nextButton = screen.queryByText(/다음|Next/);
@@ -132,7 +132,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should display post count', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const postCount = screen.getByText(/3개의 글|3 posts/);
     expect(postCount).toBeInTheDocument();
@@ -143,7 +143,7 @@ describe('Blog Listing Page Integration', () => {
     searchPosts.mockReturnValue([]);
 
     const mockSearchParams = { search: 'nonexistent' };
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const noResults = screen.getByText(/검색 결과가 없습니다|No results found/);
     expect(noResults).toBeInTheDocument();
@@ -151,7 +151,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should render blog cards for each post', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     // Each post should be a clickable card
     const reactLink = screen.getByRole('link', { name: /React Hooks 완전 가이드/ });
@@ -163,7 +163,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should show post metadata in cards', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     expect(screen.getByText('김개발')).toBeInTheDocument();
     expect(screen.getByText('8분 읽기')).toBeInTheDocument();
@@ -172,7 +172,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should handle category clearing', async () => {
     const mockSearchParams = { category: 'frontend' };
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const clearFilter = screen.queryByText(/모든 카테고리|All Categories/);
     if (clearFilter) {
@@ -182,7 +182,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should be responsive', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const container = screen.getByRole('main');
     expect(container).toHaveClass(/container|mx-auto/);
@@ -190,7 +190,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should have proper page structure', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const main = screen.getByRole('main');
     const headings = screen.getAllByRole('heading');
@@ -201,7 +201,7 @@ describe('Blog Listing Page Integration', () => {
 
   it('should sort posts by date descending', async () => {
     const mockSearchParams = {};
-    render(<BlogListingPage searchParams={mockSearchParams} />);
+    render(<BlogListPage searchParams={mockSearchParams} />);
 
     const postTitles = screen.getAllByRole('heading', { level: 3 });
     

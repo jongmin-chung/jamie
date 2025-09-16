@@ -202,6 +202,6 @@ export const kakaoPayTheme = {
     imageStyle: "modern-rounded",
     animations: "subtle-hover-effects",
   },
-} as const;
+} as const
 
 export type KakaoPayTheme = typeof kakaoPayTheme;

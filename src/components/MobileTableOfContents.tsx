@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { TableOfContents } from './TableOfContents';
-import { List, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { TableOfContents } from './TableOfContents'
+import { List, X } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface MobileTableOfContentsProps {
   content: string;
@@ -12,7 +12,7 @@ interface MobileTableOfContentsProps {
 }
 
 export function MobileTableOfContents({ content, className }: MobileTableOfContentsProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
@@ -54,5 +54,5 @@ export function MobileTableOfContents({ content, className }: MobileTableOfConte
         </div>
       )}
     </>
-  );
+  )
 }

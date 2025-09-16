@@ -1,28 +1,28 @@
-import { getAllPosts, getPostsByCategory } from '@/lib/content';
-import { BlogListingClient } from '@/components/BlogListingClient';
-import { CATEGORIES } from '@/types/content';
-import Link from 'next/link';
+import { getAllPosts, getPostsByCategory } from '@/lib/content'
+import { BlogListingClient } from '@/components/BlogListingClient'
+import { CATEGORIES } from '@/types/content'
+import Link from 'next/link'
 
 interface BlogListingPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function BlogListingPage({ searchParams }: BlogListingPageProps) {
-  const params = await searchParams;
-  const category = typeof params.category === 'string' ? params.category : undefined;
-  const searchQuery = typeof params.search === 'string' ? params.search : '';
+export default async function BlogListPage({ searchParams }: BlogListingPageProps) {
+  const params = await searchParams
+  const category = typeof params.category === 'string' ? params.category : undefined
+  const searchQuery = typeof params.search === 'string' ? params.search : ''
 
   // Server-side data fetching
-  const allPosts = getAllPosts();
+  const allPosts = getAllPosts()
   
   // Get posts based on current filters
-  const filteredPosts = category ? getPostsByCategory(category) : allPosts;
+  const filteredPosts = category ? getPostsByCategory(category) : allPosts
 
   // Calculate category counts
-  const categoryCounts: Record<string, number> = {};
+  const categoryCounts: Record<string, number> = {}
   Object.keys(CATEGORIES).forEach(categoryId => {
-    categoryCounts[categoryId] = allPosts.filter(post => post.category === categoryId).length;
-  });
+    categoryCounts[categoryId] = allPosts.filter(post => post.category === categoryId).length
+  })
 
   // Convert posts to serializable format
   const postsData = filteredPosts.map(post => ({
@@ -34,7 +34,7 @@ export default async function BlogListingPage({ searchParams }: BlogListingPageP
     tags: post.tags,
     author: post.author,
     readingTime: post.readingTime
-  }));
+  }))
 
   const allPostsData = allPosts.map(post => ({
     slug: post.slug,
@@ -45,7 +45,7 @@ export default async function BlogListingPage({ searchParams }: BlogListingPageP
     tags: post.tags,
     author: post.author,
     readingTime: post.readingTime
-  }));
+  }))
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -95,5 +95,5 @@ export default async function BlogListingPage({ searchParams }: BlogListingPageP
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
-import rehypeSlug from 'rehype-slug';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeStringify from 'rehype-stringify';
+import { remark } from 'remark'
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeStringify from 'rehype-stringify'
 
 /**
  * Parse markdown content and convert to HTML
@@ -12,7 +12,7 @@ import rehypeStringify from 'rehype-stringify';
  */
 export async function parseMarkdown(markdown: string): Promise<string> {
   if (!markdown || markdown.trim() === '') {
-    return '';
+    return ''
   }
 
   try {
@@ -26,12 +26,12 @@ export async function parseMarkdown(markdown: string): Promise<string> {
         subset: ['javascript', 'typescript', 'html', 'css', 'json', 'bash']
       })
       .use(rehypeStringify, { allowDangerousHtml: true })
-      .process(markdown);
+      .process(markdown)
 
-    return processed.toString();
+    return processed.toString()
   } catch (error) {
-    console.error('Error parsing markdown:', error);
-    throw new Error('Failed to parse markdown content');
+    console.error('Error parsing markdown:', error)
+    throw new Error('Failed to parse markdown content')
   }
 }
 
@@ -41,7 +41,7 @@ export async function parseMarkdown(markdown: string): Promise<string> {
  * @returns string - Plain text without markdown syntax
  */
 export function extractPlainText(markdown: string): string {
-  if (!markdown) return '';
+  if (!markdown) return ''
 
   return markdown
     // Remove code blocks
@@ -67,7 +67,7 @@ export function extractPlainText(markdown: string): string {
     .replace(/^>\s+/gm, '')
     // Clean up whitespace
     .replace(/\n\s*\n/g, '\n')
-    .trim();
+    .trim()
 }
 
 /**
@@ -76,17 +76,17 @@ export function extractPlainText(markdown: string): string {
  * @returns number - Estimated reading time in minutes
  */
 export function calculateReadingTime(markdown: string): number {
-  if (!markdown) return 0;
+  if (!markdown) return 0
 
-  const plainText = extractPlainText(markdown);
-  const words = plainText.split(/\s+/).filter(word => word.length > 0);
+  const plainText = extractPlainText(markdown)
+  const words = plainText.split(/\s+/).filter(word => word.length > 0)
   
   // Average reading speed: 200 words per minute
   // For Korean text, we might adjust this slightly
-  const wordsPerMinute = 200;
-  const readingTime = Math.ceil(words.length / wordsPerMinute);
+  const wordsPerMinute = 200
+  const readingTime = Math.ceil(words.length / wordsPerMinute)
   
-  return Math.max(1, readingTime); // Minimum 1 minute
+  return Math.max(1, readingTime) // Minimum 1 minute
 }
 
 /**
@@ -99,24 +99,24 @@ export function extractHeadings(markdown: string): Array<{
   text: string;
   slug: string;
 }> {
-  if (!markdown) return [];
+  if (!markdown) return []
 
-  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
-  const headings: Array<{ level: number; text: string; slug: string }> = [];
-  let match;
+  const headingRegex = /^(#{1,6})\s+(.+)$/gm
+  const headings: Array<{ level: number; text: string; slug: string }> = []
+  let match
 
   while ((match = headingRegex.exec(markdown)) !== null) {
-    const level = match[1].length;
-    const text = match[2].trim();
+    const level = match[1].length
+    const text = match[2].trim()
     const slug = text
       .toLowerCase()
       .replace(/[^a-z0-9가-힣\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
+      .replace(/^-|-$/g, '')
 
-    headings.push({ level, text, slug });
+    headings.push({ level, text, slug })
   }
 
-  return headings;
+  return headings
 }

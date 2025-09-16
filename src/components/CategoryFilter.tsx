@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { CATEGORIES, CATEGORY_COLORS } from '@/types/content';
-import { cn } from '@/lib/utils';
+import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { CATEGORIES, CATEGORY_COLORS } from '@/types/content'
+import { cn } from '@/lib/utils'
 
 interface CategoryFilterProps {
   currentCategory?: string;
@@ -18,27 +18,27 @@ export function CategoryFilter({
   categoryCounts = {},
   className 
 }: CategoryFilterProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const handleCategoryChange = (category: string | null) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams)
     
     if (category) {
-      params.set('category', category);
+      params.set('category', category)
     } else {
-      params.delete('category');
+      params.delete('category')
     }
     
     // Reset to first page when filtering
-    params.delete('page');
+    params.delete('page')
     
-    const queryString = params.toString();
-    const newPath = queryString ? `/blog?${queryString}` : '/blog';
-    router.push(newPath);
-  };
+    const queryString = params.toString()
+    const newPath = queryString ? `/blog?${queryString}` : '/blog'
+    router.push(newPath)
+  }
 
-  const categories = Object.entries(CATEGORIES);
+  const categories = Object.entries(CATEGORIES)
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -65,9 +65,9 @@ export function CategoryFilter({
 
         {/* Individual Category Buttons */}
         {categories.map(([categoryId, categoryName]) => {
-          const count = categoryCounts[categoryId] || 0;
-          const isActive = currentCategory === categoryId;
-          const color = CATEGORY_COLORS[categoryId] || '#6B7280';
+          const count = categoryCounts[categoryId] || 0
+          const isActive = currentCategory === categoryId
+          const color = CATEGORY_COLORS[categoryId] || '#6B7280'
 
           return (
             <Button
@@ -96,7 +96,7 @@ export function CategoryFilter({
                 </Badge>
               )}
             </Button>
-          );
+          )
         })}
       </div>
 
@@ -126,5 +126,5 @@ export function CategoryFilter({
         </div>
       )}
     </div>
-  );
+  )
 }
