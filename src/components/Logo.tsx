@@ -1,6 +1,6 @@
 export default function Logo({ className = '' }) {
   return (
-    <svg viewBox="0 0 160 40" className={className} xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid meet">
+    <svg viewBox="0 0 160 40" className={className} xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" width="160" height="40">
       <defs>
         <linearGradient id="symbolGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor:'#4F46E5', stopOpacity:1}} />
@@ -31,7 +31,7 @@ export default function Logo({ className = '' }) {
       />
 
       <text x="42" y="25" fontFamily="'Inter', 'Segoe UI', sans-serif" fontSize="25" fill="currentColor">
-        <tspan fontWeight="800" >jamie</tspan>
+        <tspan fontWeight="800" >jamie.kr</tspan>
         <tspan dx="4" fontWeight="600" >tech</tspan>
       </text>
     </svg>

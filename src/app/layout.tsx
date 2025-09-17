@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import './globals.css'
 import 'highlight.js/styles/github-dark.css'
 import './code-highlight.css'
+import '../styles/blog-post.css'
 import React from 'react'
 import Header from '@/components/Header'
 
