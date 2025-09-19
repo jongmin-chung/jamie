@@ -1,28 +1,28 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Copy, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Check, Copy } from 'lucide-react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 interface CodeBlockProps {
-  children: string;
-  className?: string;
-  language?: string;
+  children: string
+  className?: string
+  language?: string
 }
 
 export function CodeBlock({ children, className, language }: CodeBlockProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false)
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(children);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(children)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error('Failed to copy text: ', err)
     }
-  };
+  }
 
   return (
     <div className="group relative my-6">
@@ -51,11 +51,13 @@ export function CodeBlock({ children, className, language }: CodeBlockProps) {
           </Button>
         </div>
       )}
-      <pre className={cn(
-        "overflow-x-auto bg-muted border rounded-lg p-4 text-sm font-mono leading-relaxed",
-        language ? "rounded-t-none" : "",
-        className
-      )}>
+      <pre
+        className={cn(
+          'overflow-x-auto bg-muted border rounded-lg p-4 text-sm font-mono leading-relaxed',
+          language ? 'rounded-t-none' : '',
+          className
+        )}
+      >
         <code>{children}</code>
       </pre>
       {!language && (
@@ -79,5 +81,5 @@ export function CodeBlock({ children, className, language }: CodeBlockProps) {
         </Button>
       )}
     </div>
-  );
+  )
 }

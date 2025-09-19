@@ -1,23 +1,26 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { TableOfContents } from './TableOfContents';
-import { List, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { List, X } from 'lucide-react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { TableOfContents } from './TableOfContents'
 
 interface MobileTableOfContentsProps {
-  content: string;
-  className?: string;
+  content: string
+  className?: string
 }
 
-export function MobileTableOfContents({ content, className }: MobileTableOfContentsProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function MobileTableOfContents({
+  content,
+  className,
+}: MobileTableOfContentsProps) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
       {/* Toggle Button - Only visible on mobile/tablet */}
-      <div className={cn("xl:hidden fixed bottom-6 right-6 z-50", className)}>
+      <div className={cn('xl:hidden fixed bottom-6 right-6 z-50', className)}>
         <Button
           onClick={() => setIsOpen(true)}
           size="lg"
@@ -44,8 +47,8 @@ export function MobileTableOfContents({ content, className }: MobileTableOfConte
                   <X size={18} />
                 </Button>
               </div>
-              
-              <TableOfContents 
+
+              <TableOfContents
                 content={content}
                 onClick={() => setIsOpen(false)} // Close on item click
               />
@@ -54,5 +57,5 @@ export function MobileTableOfContents({ content, className }: MobileTableOfConte
         </div>
       )}
     </>
-  );
+  )
 }

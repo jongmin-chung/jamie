@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "export PATH=/Users/jaime/.nvm/versions/node/v22.18.0/bin:$PATH && npx @playwright/mcp"
+      ]
+    }
+  }
+}

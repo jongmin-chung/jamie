@@ -2,63 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@import "../styles/blog-post.css";
 
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply border-kakao-medium-gray;
   }
-  
+
   html {
-    background-color: #f8f9fa;
+    background-color: white;
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply text-gray-900;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Malgun Gothic", "맑은 고딕", Dotum, "돋움", Gulim, "굴림";
+    @apply text-kakao-dark-text;
+    font-family: "Noto Sans KR", sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f8f9fa;
+    background-color: white;
   }
 
-  /* KakaoPay 정확한 색상들 */
-  :root {
-    --kakaopay-bg: #f8f9fa;
-    --kakaopay-card-bg: #ffffff;
-    --kakaopay-text-primary: #212529;
-    --kakaopay-text-secondary: #6c757d;
-    --kakaopay-text-muted: #adb5bd;
-    --kakaopay-border: #dee2e6;
-    --kakaopay-hover: #e9ecef;
-    --kakaopay-link: #007bff;
-    --kakaopay-yellow: #ffeb3b;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Noto Sans KR", sans-serif;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--kakaopay-text-primary);
+    color: theme("colors.kakao.dark-text");
     word-break: keep-all;
     overflow-wrap: break-word;
+  }
+
+  h1 {
+    @apply text-[52px] font-bold leading-[70px] text-white mb-6;
+  }
+
+  h2 {
+    @apply text-[32px] font-semibold leading-[44px] text-kakao-dark-text;
   }
 
   p {
-    color: var(--kakaopay-text-secondary);
+    @apply text-lg font-normal leading-7 text-kakao-text-white-48;
+    font-family: "Noto Sans KR", sans-serif;
     word-break: keep-all;
     overflow-wrap: break-word;
-    line-height: 1.7;
+  }
+
+  strong {
+    @apply text-lg font-medium text-kakao-text-dark-48;
+    font-family: "Noto Sans KR", sans-serif;
   }
 
   a {
-    color: var(--kakaopay-link);
+    color: theme("colors.kakao.dark-text");
     text-decoration: none;
     transition: color 0.15s ease-in-out;
   }
 
   a:hover {
-    color: #0056b3;
+    color: theme("colors.kakao.yellow");
   }
 
   /* Line clamp utilities */
@@ -76,71 +84,259 @@
     overflow: hidden;
   }
 
-  /* KakaoPay 스타일 카드 */
-  .kakaopay-card {
-    background-color: var(--kakaopay-card-bg);
-    border: 1px solid var(--kakaopay-border);
-    border-radius: 8px;
-    transition: all 0.15s ease-in-out;
+  /* Scrollbar hide utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
   }
 
-  .kakaopay-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: #c6cbcf;
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
   }
 
-  /* 페이지네이션 스타일 */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin: 2rem 0;
+  /* 페이드 인 애니메이션의 초기 상태 */
+  .animate-fade-in-up-delay {
+    opacity: 0;
   }
 
-  .pagination-item {
-    padding: 8px 12px;
-    color: var(--kakaopay-text-secondary);
-    background-color: transparent;
-    border: 1px solid var(--kakaopay-border);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    font-size: 14px;
-    font-weight: 500;
+  .animate-fade-in-up-delay-2 {
+    opacity: 0;
   }
 
-  .pagination-item:hover {
-    background-color: var(--kakaopay-hover);
-    color: var(--kakaopay-text-primary);
+  /* 태그 클라우드 애니메이션 - GPU 가속화 */
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
-  .pagination-item.active {
-    background-color: var(--kakaopay-link);
-    color: white;
-    border-color: var(--kakaopay-link);
+  .animate-float-fast {
+    animation: float-fast 4s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
-  .pagination-item.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .animate-tag-glow {
+    animation: tag-glow 2s ease-in-out infinite alternate;
+    will-change: box-shadow;
   }
 
-  /* 태그 스타일 */
-  .tag-item {
-    background-color: var(--kakaopay-hover);
-    color: var(--kakaopay-text-secondary);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    transition: all 0.15s ease;
-    cursor: pointer;
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
   }
 
-  .tag-item:hover {
-    background-color: var(--kakaopay-link);
-    color: white;
+  @keyframes float-fast {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-6px) rotate(2deg);
+    }
+    75% {
+      transform: translateY(6px) rotate(-2deg);
+    }
+  }
+
+  @keyframes tag-glow {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 235, 59, 0.3);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(255, 235, 59, 0.6), 0 0 30px rgba(255, 235, 59, 0.4);
+    }
+  }
+
+  @keyframes progress-bar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 70%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-progress-bar {
+    animation: progress-bar 2s ease-in-out;
+    will-change: width;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-slide-in-left {
+    animation: slide-in-left 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotate-in {
+    from {
+      opacity: 0;
+      transform: rotate(10deg) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-rotate-in {
+    animation: rotate-in 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Performance optimization for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    
+    /* KakaoPay Brand Colors */
+    --kakao-yellow: #FFEB00;
+    --kakao-yellow-hover: #E6D300;
+    --kakao-dark-text: #060B11;
+    --kakao-gray-text: #4A5568;
+    --kakao-light-text: #718096;
+    --kakao-background-light: #FAFAFA;
+    --kakao-border-light: #E2E8F0;
+    --kakao-success: #38A169;
+    --kakao-warning: #D69E2E;
+    --kakao-error: #E53E3E;
+    --kakao-info: #3182CE;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

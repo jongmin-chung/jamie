@@ -1,19 +1,25 @@
-import fs from 'fs';
-import path from 'path';
-import { BlogPost, BlogPostMetadata } from '@/types/blog';
-import { parseFrontmatter, validateFrontmatter, applyFrontmatterDefaults } from './frontmatter';
-import { calculateReadingTime } from './markdown';
+import fs from 'fs'
+import path from 'path'
+import { BlogPost, BlogPostMetadata } from '@/types/blog'
+import {
+  applyFrontmatterDefaults,
+  parseFrontmatter,
+  validateFrontmatter,
+} from './frontmatter'
+import { calculateReadingTime } from './markdown'
 
-const CONTENT_DIR = path.join(process.cwd(), 'content/posts');
+const CONTENT_DIR = path.join(process.cwd(), 'content/posts')
 
 /**
  * Generate complete metadata for a blog post
  * @param post - Partial blog post data
  * @returns BlogPostMetadata - Complete metadata
  */
-export function generateContentMetadata(post: Partial<BlogPost>): BlogPostMetadata {
-  const readingTime = post.content ? calculateReadingTime(post.content) : 0;
-  
+export function generateContentMetadata(
+  post: Partial<BlogPost>
+): BlogPostMetadata {
+  const readingTime = post.content ? calculateReadingTime(post.content) : 0
+
   return {
     slug: post.slug || '',
     title: post.title || '',
@@ -23,10 +29,9 @@ export function generateContentMetadata(post: Partial<BlogPost>): BlogPostMetada
     category: post.category || 'general',
     tags: post.tags || [],
     author: post.author || 'Anonymous',
-    readingTime
-  };
+    readingTime,
+  }
 }
-
 
 /**
  * Validate blog post data structure
@@ -35,55 +40,65 @@ export function generateContentMetadata(post: Partial<BlogPost>): BlogPostMetada
  */
 export function validateBlogPost(post: unknown): post is BlogPost {
   if (!post || typeof post !== 'object') {
-    return false;
+    return false
   }
 
-  const postObj = post as Record<string, unknown>;
+  const postObj = post as Record<string, unknown>
 
   // Required fields
-  const requiredFields = ['slug', 'title', 'content'];
+  const requiredFields = ['slug', 'title', 'content']
   for (const field of requiredFields) {
     if (!postObj[field] || typeof postObj[field] !== 'string') {
-      return false;
+      return false
     }
   }
 
   // Slug validation - must be URL-safe
   if (!/^[a-z0-9-]+$/.test(postObj.slug as string)) {
-    return false;
+    return false
   }
 
   // Title length validation
-  if ((postObj.title as string).length < 5 || (postObj.title as string).length > 100) {
-    return false;
+  if (
+    (postObj.title as string).length < 5 ||
+    (postObj.title as string).length > 100
+  ) {
+    return false
   }
 
   // Content length validation
   if ((postObj.content as string).length < 100) {
-    return false;
+    return false
   }
 
   // Description length validation (if provided)
-  if (postObj.description && ((postObj.description as string).length < 10 || (postObj.description as string).length > 200)) {
-    return false;
+  if (
+    postObj.description &&
+    ((postObj.description as string).length < 10 ||
+      (postObj.description as string).length > 200)
+  ) {
+    return false
   }
 
   // Tags validation - maximum 5 tags
-  if (postObj.tags && (!Array.isArray(postObj.tags) || (postObj.tags as string[]).length > 5)) {
-    return false;
+  if (
+    postObj.tags &&
+    (!Array.isArray(postObj.tags) || (postObj.tags as string[]).length > 5)
+  ) {
+    return false
   }
 
   // Category validation
   if (postObj.category && typeof postObj.category !== 'string') {
-    return false;
+    return false
   }
 
   // Author validation
   if (postObj.author && typeof postObj.author !== 'string') {
-    return false;
+    return false
   }
 
-  return true;
+  return true
 }
 
 /**
@@ -92,27 +107,27 @@ export function validateBlogPost(post: unknown): post is BlogPost {
  */
 export function getAllPosts(): BlogPost[] {
   if (!fs.existsSync(CONTENT_DIR)) {
-    return [];
+    return []
   }
 
-  const fileNames = fs.readdirSync(CONTENT_DIR);
-  const posts: BlogPost[] = [];
+  const fileNames = fs.readdirSync(CONTENT_DIR)
+  const posts: BlogPost[] = []
 
   for (const fileName of fileNames) {
-    if (!fileName.endsWith('.md')) continue;
+    if (!fileName.endsWith('.md')) continue
 
     try {
-      const post = getPostBySlug(fileName.replace('.md', ''));
+      const post = getPostBySlug(fileName.replace('.md', ''))
       if (post) {
-        posts.push(post);
+        posts.push(post)
       }
     } catch (error) {
-      console.error(`Error loading post ${fileName}:`, error);
+      console.error(`Error loading post ${fileName}:`, error)
     }
   }
 
   // Sort by published date descending
-  return posts.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+  return posts.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime())
 }
 
 /**
@@ -122,39 +137,41 @@ export function getAllPosts(): BlogPost[] {
  */
 export function getPostBySlug(slug: string): BlogPost | null {
   try {
-    const fullPath = path.join(CONTENT_DIR, `${slug}.md`);
-    
+    const fullPath = path.join(CONTENT_DIR, `${slug}.md`)
+
     if (!fs.existsSync(fullPath)) {
-      return null;
+      return null
     }
 
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = parseFrontmatter(fileContents);
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data, content } = parseFrontmatter(fileContents)
 
     if (!validateFrontmatter(data)) {
-      console.error(`Invalid frontmatter in ${slug}.md`);
-      return null;
+      console.error(`Invalid frontmatter in ${slug}.md`)
+      return null
     }
 
-    const frontmatterWithDefaults = applyFrontmatterDefaults(data);
-    
+    const frontmatterWithDefaults = applyFrontmatterDefaults(data)
+
     const post: BlogPost = {
       slug,
       title: frontmatterWithDefaults.title,
       description: frontmatterWithDefaults.description,
       content,
       publishedAt: new Date(frontmatterWithDefaults.publishedAt),
-      updatedAt: frontmatterWithDefaults.updatedAt ? new Date(frontmatterWithDefaults.updatedAt) : undefined,
+      updatedAt: frontmatterWithDefaults.updatedAt
+        ? new Date(frontmatterWithDefaults.updatedAt)
+        : undefined,
       category: frontmatterWithDefaults.category,
       tags: frontmatterWithDefaults.tags,
       author: frontmatterWithDefaults.author,
-      readingTime: calculateReadingTime(content)
-    };
+      readingTime: calculateReadingTime(content),
+    }
 
-    return validateBlogPost(post) ? post : null;
+    return validateBlogPost(post) ? post : null
   } catch (error) {
-    console.error(`Error loading post ${slug}:`, error);
-    return null;
+    console.error(`Error loading post ${slug}:`, error)
+    return null
   }
 }
 
@@ -164,8 +181,8 @@ export function getPostBySlug(slug: string): BlogPost | null {
  * @returns BlogPost[] - Filtered posts
  */
 export function getPostsByCategory(category: string): BlogPost[] {
-  const allPosts = getAllPosts();
-  return allPosts.filter(post => post.category === category);
+  const allPosts = getAllPosts()
+  return allPosts.filter((post) => post.category === category)
 }
 
 /**
@@ -173,8 +190,8 @@ export function getPostsByCategory(category: string): BlogPost[] {
  * @returns BlogPost[] - Featured posts
  */
 export function getFeaturedPosts(): BlogPost[] {
-  const allPosts = getAllPosts();
-  return allPosts.slice(0, 5);
+  const allPosts = getAllPosts()
+  return allPosts.slice(0, 5)
 }
 
 /**
@@ -184,18 +201,18 @@ export function getFeaturedPosts(): BlogPost[] {
  * @returns BlogPost[] - Related posts
  */
 export function getRelatedPosts(post: BlogPost, limit: number = 3): BlogPost[] {
-  const allPosts = getAllPosts().filter(p => p.slug !== post.slug);
-  
+  const allPosts = getAllPosts().filter((p) => p.slug !== post.slug)
+
   const related = allPosts
-    .map(p => ({
+    .map((p) => ({
       post: p,
-      score: calculateRelatedScore(post, p)
+      score: calculateRelatedScore(post, p),
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
-    .map(item => item.post);
+    .map((item) => item.post)
 
-  return related;
+  return related
 }
 
 /**
@@ -205,21 +222,21 @@ export function getRelatedPosts(post: BlogPost, limit: number = 3): BlogPost[] {
  * @returns number - Relatedness score
  */
 function calculateRelatedScore(post1: BlogPost, post2: BlogPost): number {
-  let score = 0;
+  let score = 0
 
   // Same category gets high score
   if (post1.category === post2.category) {
-    score += 10;
+    score += 10
   }
 
   // Common tags
-  const commonTags = post1.tags.filter(tag => post2.tags.includes(tag));
-  score += commonTags.length * 5;
+  const commonTags = post1.tags.filter((tag) => post2.tags.includes(tag))
+  score += commonTags.length * 5
 
   // Same author
   if (post1.author === post2.author) {
-    score += 3;
+    score += 3
   }
 
-  return score;
+  return score
 }
