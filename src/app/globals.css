@@ -40,11 +40,21 @@
   }
 
   h1 {
-    @apply text-[52px] font-bold leading-[70px] text-white mb-6;
+    @apply text-[52px] font-bold leading-[70px] text-kakao-dark-text mb-6;
   }
 
   h2 {
     @apply text-[32px] font-semibold leading-[44px] text-kakao-dark-text;
+  }
+
+  /* 블로그 메타 정보 스타일 */
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: #4A5568; /* kakao-gray-text */
+    font-size: 0.875rem; /* text-sm */
+    margin-bottom: 3rem; /* mb-12 */
   }
 
   p {

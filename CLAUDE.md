@@ -64,6 +64,12 @@ pnpx playwright test      # E2E testing
 - Mobile responsive design testing
 - Performance benchmarks (page load < 2s)
 
+## Tailwind Style
+
+- 모든 스타일은 TSX 내에서 Tailwind 클래스로 직접 적용
+- shadcn/ui 컴포넌트 활용, 필요시 UI 컴포넌트에 Tailwind 클래스를 추가하여 커스터마이징
+- 별도 CSS 파일 분리 최소화
+
 ## Recent Changes
 
 - 001-https-tech-kakaopay: Added Korean blog site with Next.js + shadcn/ui + client-side search
