@@ -1,14 +1,14 @@
 'use client'
 
+import { Check, Copy } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Copy, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface CodeBlockProps {
-  children: string;
-  className?: string;
-  language?: string;
+  children: string
+  className?: string
+  language?: string
 }
 
 export function CodeBlock({ children, className, language }: CodeBlockProps) {
@@ -51,11 +51,13 @@ export function CodeBlock({ children, className, language }: CodeBlockProps) {
           </Button>
         </div>
       )}
-      <pre className={cn(
-        "overflow-x-auto bg-muted border rounded-lg p-4 text-sm font-mono leading-relaxed",
-        language ? "rounded-t-none" : "",
-        className
-      )}>
+      <pre
+        className={cn(
+          'overflow-x-auto bg-muted border rounded-lg p-4 text-sm font-mono leading-relaxed',
+          language ? 'rounded-t-none' : '',
+          className
+        )}
+      >
         <code>{children}</code>
       </pre>
       {!language && (

@@ -16,9 +16,14 @@
       "Bash(chmod:*)",
       "Bash(node:*)",
       "Bash(pnpm build:*)",
-      "Bash(scripts/create-new-feature.sh:*)"
+      "Bash(scripts/create-new-feature.sh:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_console_messages"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": ["playwright"]
 }

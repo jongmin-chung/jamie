@@ -1,26 +1,26 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
 
 type KakaoStyleBlogLayoutProps = {
-  title: string;
-  date: string;
-  author: string;
-  readTime: string;
-  category: string;
-  content: React.ReactNode;
-  tags: string[];
-  authorBio?: string;
-  excerpt?: string;
+  title: string
+  date: string
+  author: string
+  readTime: string
+  category: string
+  content: React.ReactNode
+  tags: string[]
+  authorBio?: string
+  excerpt?: string
   relatedPosts?: Array<{
-    slug: string;
-    title: string;
-    excerpt: string;
-    date: string;
-  }>;
-};
+    slug: string
+    title: string
+    excerpt: string
+    date: string
+  }>
+}
 
 const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
   title,
@@ -36,39 +36,44 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
     {
       slug: 'typescript-basics',
       title: 'TypeScript 기초 완벽 정리',
-      excerpt: 'TypeScript의 기본 개념부터 실무 활용법까지, 초보자도 쉽게 이해할 수 있는 완벽한 가이드입니다.',
-      date: '2025. 9. 9'
+      excerpt:
+        'TypeScript의 기본 개념부터 실무 활용법까지, 초보자도 쉽게 이해할 수 있는 완벽한 가이드입니다.',
+      date: '2025. 9. 9',
     },
     {
       slug: 'javascript-es6-features',
       title: 'JavaScript ES6+ 주요 기능 정리',
-      excerpt: 'ES6부터 최신 JavaScript까지, 현대 JavaScript 개발에 필수인 기능들을 정리했습니다.',
-      date: '2025. 9. 7'
+      excerpt:
+        'ES6부터 최신 JavaScript까지, 현대 JavaScript 개발에 필수인 기능들을 정리했습니다.',
+      date: '2025. 9. 7',
     },
     {
       slug: 'web-performance-optimization',
       title: '웹 성능 최적화 실전 가이드',
-      excerpt: '실제 웹사이트 성능을 개선하는 구체적인 방법들을 살펴봅시다. Core Web Vitals부터 실무 최적화 기법까지.',
-      date: '2025. 9. 6'
-    }
-  ]
+      excerpt:
+        '실제 웹사이트 성능을 개선하는 구체적인 방법들을 살펴봅시다. Core Web Vitals부터 실무 최적화 기법까지.',
+      date: '2025. 9. 6',
+    },
+  ],
 }) => {
-  const [activeHeading, setActiveHeading] = useState<string>("")
-  const [headingIds, setHeadingIds] = useState<Array<{id: string, text: string}>>([])
-  
+  const [activeHeading, setActiveHeading] = useState<string>('')
+  const [headingIds, setHeadingIds] = useState<
+    Array<{ id: string; text: string }>
+  >([])
+
   // Extract headings for TOC on mount and set up observer for active heading
   useEffect(() => {
     const extractHeadings = () => {
       const headings = document.querySelectorAll('h1[id], h2[id], h3[id]')
-      
+
       if (headings.length > 0) {
         const items = Array.from(headings).map((heading) => ({
           id: heading.id,
           text: heading.textContent || '',
         }))
-        
+
         setHeadingIds(items)
-        
+
         // Set up intersection observer for active heading
         const observer = new IntersectionObserver(
           (entries) => {
@@ -94,10 +99,22 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
     <div className="flex flex-col min-h-screen">
       {/* Back button */}
       <div className="max-w-screen-xl mx-auto w-full px-4 py-8">
-        <Link href="/blog" className="inline-flex items-center text-gray-700 hover:text-yellow-500 transition-colors">
+        <Link
+          href="/blog"
+          className="inline-flex items-center text-gray-700 hover:text-yellow-500 transition-colors"
+        >
           <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+                clipRule="evenodd"
+              />
             </svg>
             블로그 목록
           </button>
@@ -107,36 +124,65 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
       <div className="max-w-screen-xl mx-auto w-full px-4 pb-16">
         {/* Featured Image with Title Overlay */}
         <div className="relative mb-12 rounded-lg overflow-hidden">
-          <Image 
-            src="/images/thumb.png" 
-            alt={title} 
-            width={1200} 
-            height={500} 
+          <Image
+            src="/images/thumb.png"
+            alt={title}
+            width={1200}
+            height={500}
             className="w-full object-cover h-[400px]"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8">
             <div className="text-white">
-              <span className="inline-block bg-yellow-500 text-white px-3 py-1 rounded-full text-sm mb-4">{category}</span>
+              <span className="inline-block bg-yellow-500 text-white px-3 py-1 rounded-full text-sm mb-4">
+                {category}
+              </span>
               <h1 className="text-3xl md:text-4xl font-bold mb-4">{title}</h1>
               <div className="flex items-center gap-6 text-gray-200">
                 <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   <span>{date}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-700"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                   <span>{author}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   <span>{readTime}</span>
                 </div>
@@ -149,23 +195,32 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
           {/* Main content */}
           <article className="lg:flex-1">
             {/* Post content */}
-            <div className="prose prose-lg max-w-none">
-              {content}
-            </div>
-            
+            <div className="prose prose-lg max-w-none">{content}</div>
+
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mt-12 mb-8">
               <span className="font-semibold">태그:</span>
               {tags.map((tag, index) => (
-                <span key={index} className="text-gray-600">#{tag}</span>
+                <span key={index} className="text-gray-600">
+                  #{tag}
+                </span>
               ))}
             </div>
 
             {/* Author bio */}
             <div className="bg-gray-100 rounded-lg p-6 my-8 flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-gray-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div>
@@ -177,14 +232,23 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
             {/* Back to blog list button */}
             <Link href="/blog" className="inline-block mt-4">
               <button className="flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 블로그 목록으로 돌아가기
               </button>
             </Link>
           </article>
-          
+
           {/* Table of contents - right sidebar */}
           <aside className="lg:w-72 order-first lg:order-last">
             <div className="lg:sticky lg:top-24">
@@ -197,7 +261,9 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
                         key={item.id}
                         href={`#${item.id}`}
                         className={`text-left py-1.5 hover:text-yellow-500 transition-colors ${
-                          activeHeading === item.id ? 'text-yellow-500 font-medium' : 'text-gray-700'
+                          activeHeading === item.id
+                            ? 'text-yellow-500 font-medium'
+                            : 'text-gray-700'
                         }`}
                         onClick={(e) => {
                           e.preventDefault()
@@ -228,11 +294,11 @@ const KakaoStyleBlogLayout: React.FC<KakaoStyleBlogLayoutProps> = ({
             {relatedPosts.map((post, index) => (
               <Link href={`/blog/${post.slug}`} className="block" key={index}>
                 <article className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <Image 
-                    src="/images/thumb.png" 
-                    alt={post.title} 
-                    width={800} 
-                    height={450} 
+                  <Image
+                    src="/images/thumb.png"
+                    alt={post.title}
+                    width={800}
+                    height={450}
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-5">

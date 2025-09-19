@@ -6,9 +6,15 @@
   --blog-link-color: #f9a825;
   --blog-code-bg: #f5f5f5;
   --blog-blockquote-border: #f9a825;
-  --blog-heading-font: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  --blog-body-font: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  --blog-code-font: 'Menlo', 'Monaco', 'Courier New', monospace;
+  --blog-heading-font:
+    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --blog-body-font:
+    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --blog-code-font: "Menlo", "Monaco", "Courier New", monospace;
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
@@ -61,7 +67,7 @@
 }
 
 /* Lists */
-.blog-post-content ul, 
+.blog-post-content ul,
 .blog-post-content ol {
   padding-left: 1.75rem;
   margin-bottom: 2rem;
@@ -105,7 +111,7 @@
 
 /* Code blocks */
 .blog-post-content pre {
-  background-color: #060B11;
+  background-color: #060b11;
   border-radius: 0.5rem;
   padding: 1.25rem;
   overflow-x: auto;
@@ -113,7 +119,7 @@
   font-size: 0.9375rem;
   line-height: 1.6;
   max-width: 100%;
-  color: #E6ECF1;
+  color: #e6ecf1;
 }
 
 .blog-post-content code {
@@ -122,7 +128,9 @@
   border-radius: 0.25rem;
   font-size: 0.9375rem;
   color: #333;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
 
 .blog-post-content pre code {

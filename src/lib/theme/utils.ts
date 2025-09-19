@@ -3,7 +3,7 @@
  * Helper functions for consistent styling across components
  */
 
-import { clsx, type ClassValue } from 'clsx'
+import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 /**
@@ -16,14 +16,17 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Get KakaoPay typography classes based on element type
  */
-export const getTypographyClasses = (element: 'h1' | 'h2' | 'paragraph' | 'strong') => {
+export const getTypographyClasses = (
+  element: 'h1' | 'h2' | 'paragraph' | 'strong'
+) => {
   const styles = {
     h1: 'text-[52px] font-bold leading-[70px] text-white mb-6 font-noto-sans-kr',
     h2: 'text-[32px] font-semibold leading-[44px] text-kakao-dark-text font-noto-sans-kr',
-    paragraph: 'text-lg font-normal leading-7 text-kakao-text-white-48 font-noto-sans-kr',
+    paragraph:
+      'text-lg font-normal leading-7 text-kakao-text-white-48 font-noto-sans-kr',
     strong: 'text-lg font-medium text-kakao-text-dark-48 font-noto-sans-kr',
   }
-  
+
   return styles[element]
 }
 
@@ -53,10 +56,11 @@ export const colors = {
  */
 export const getButtonClasses = (variant: 'primary' | 'secondary') => {
   const styles = {
-    primary: 'bg-transparent text-white border-none rounded-none text-[13.33px] font-normal px-[6px] py-[1px]',
+    primary:
+      'bg-transparent text-white border-none rounded-none text-[13.33px] font-normal px-[6px] py-[1px]',
     secondary: 'bg-transparent text-kakao-dark-text border-none rounded-none',
   }
-  
+
   return styles[variant]
 }
 
@@ -64,27 +68,30 @@ export const getButtonClasses = (variant: 'primary' | 'secondary') => {
  * Get KakaoPay card styles
  */
 export const getCardClasses = (type: 'article' | 'featured' | 'standard') => {
-  const baseClasses = 'bg-transparent p-0 m-0 rounded-none shadow-none border-none'
-  
+  const baseClasses =
+    'bg-transparent p-0 m-0 rounded-none shadow-none border-none'
+
   const typeClasses = {
     article: baseClasses,
     featured: `${baseClasses} hover:opacity-75 transition-opacity`,
     standard: `${baseClasses} hover:opacity-90 transition-opacity`,
   }
-  
+
   return typeClasses[type]
 }
 
 /**
  * Get layout container classes
  */
-export const getContainerClasses = (variant: 'default' | 'hero' | 'content') => {
+export const getContainerClasses = (
+  variant: 'default' | 'hero' | 'content'
+) => {
   const styles = {
     default: 'max-w-[1200px] mx-auto px-6',
     hero: 'max-w-[1200px] mx-auto px-6 py-12',
     content: 'max-w-[1200px] mx-auto px-6 py-8',
   }
-  
+
   return styles[variant]
 }
 
@@ -94,9 +101,9 @@ export const getContainerClasses = (variant: 'default' | 'hero' | 'content') => 
 export const getGridClasses = (layout: 'horizontal-scroll' | 'grid') => {
   const styles = {
     'horizontal-scroll': 'flex overflow-x-auto gap-6 pb-4 scrollbar-hide',
-    'grid': 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6',
+    grid: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6',
   }
-  
+
   return styles[layout]
 }
 

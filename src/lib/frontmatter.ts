@@ -10,22 +10,22 @@ export function parseFrontmatter(markdown: string): ParsedPost {
   if (!markdown) {
     return {
       data: {} as FrontmatterData,
-      content: ''
+      content: '',
     }
   }
 
   try {
     const parsed = matter(markdown)
-    
+
     return {
       data: parsed.data as FrontmatterData,
-      content: parsed.content
+      content: parsed.content,
     }
   } catch (error) {
     console.error('Error parsing frontmatter:', error)
     return {
       data: {} as FrontmatterData,
-      content: markdown
+      content: markdown,
     }
   }
 }
@@ -51,7 +51,10 @@ export function validateFrontmatter(data: unknown): data is FrontmatterData {
   }
 
   // Type checks
-  if (typeof dataObj.title !== 'string' || (dataObj.title as string).trim() === '') {
+  if (
+    typeof dataObj.title !== 'string' ||
+    (dataObj.title as string).trim() === ''
+  ) {
     return false
   }
 
@@ -84,7 +87,9 @@ export function validateFrontmatter(data: unknown): data is FrontmatterData {
  * @param data - Partial frontmatter data
  * @returns FrontmatterData - Complete frontmatter with defaults
  */
-export function applyFrontmatterDefaults(data: Partial<FrontmatterData>): FrontmatterData {
+export function applyFrontmatterDefaults(
+  data: Partial<FrontmatterData>
+): FrontmatterData {
   const now = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
 
   return {
@@ -94,7 +99,7 @@ export function applyFrontmatterDefaults(data: Partial<FrontmatterData>): Frontm
     updatedAt: data.updatedAt,
     category: data.category || 'general',
     tags: data.tags || [],
-    author: data.author || 'Anonymous'
+    author: data.author || 'Anonymous',
   }
 }
 
@@ -111,13 +116,13 @@ export function stringifyFrontmatter(data: FrontmatterData): string {
     ...(data.updatedAt && { updatedAt: data.updatedAt }),
     category: data.category,
     tags: data.tags,
-    author: data.author
+    author: data.author,
   }
 
   const yamlString = Object.entries(yamlData)
     .map(([key, value]) => {
       if (Array.isArray(value)) {
-        return `${key}: [${value.map(v => `"${v}"`).join(', ')}]`
+        return `${key}: [${value.map((v) => `"${v}"`).join(', ')}]`
       }
       return `${key}: "${value}"`
     })

@@ -1,31 +1,36 @@
-import { getAllPosts, getPostsByCategory } from '@/lib/content'
-import { BlogListingClient } from '@/components/BlogListingClient'
-import { CATEGORIES } from '@/types/content'
 import Link from 'next/link'
+import { BlogListingClient } from '@/components/BlogListingClient'
+import { getAllPosts, getPostsByCategory } from '@/lib/content'
+import { CATEGORIES } from '@/types/content'
 
 interface BlogListingPageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default async function BlogListPage({ searchParams }: BlogListingPageProps) {
+export default async function BlogListPage({
+  searchParams,
+}: BlogListingPageProps) {
   const params = await searchParams
-  const category = typeof params.category === 'string' ? params.category : undefined
+  const category =
+    typeof params.category === 'string' ? params.category : undefined
   const searchQuery = typeof params.search === 'string' ? params.search : ''
 
   // Server-side data fetching
   const allPosts = getAllPosts()
-  
+
   // Get posts based on current filters
   const filteredPosts = category ? getPostsByCategory(category) : allPosts
 
   // Calculate category counts
   const categoryCounts: Record<string, number> = {}
-  Object.keys(CATEGORIES).forEach(categoryId => {
-    categoryCounts[categoryId] = allPosts.filter(post => post.category === categoryId).length
+  Object.keys(CATEGORIES).forEach((categoryId) => {
+    categoryCounts[categoryId] = allPosts.filter(
+      (post) => post.category === categoryId
+    ).length
   })
 
   // Convert posts to serializable format
-  const postsData = filteredPosts.map(post => ({
+  const postsData = filteredPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
     description: post.description,
@@ -33,10 +38,10 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
     category: post.category,
     tags: post.tags,
     author: post.author,
-    readingTime: post.readingTime
+    readingTime: post.readingTime,
   }))
 
-  const allPostsData = allPosts.map(post => ({
+  const allPostsData = allPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
     description: post.description,
@@ -44,7 +49,7 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
     category: post.category,
     tags: post.tags,
     author: post.author,
-    readingTime: post.readingTime
+    readingTime: post.readingTime,
   }))
 
   return (
@@ -53,11 +58,12 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
       <div className="lg:col-span-3">
         {category && (
           <div className="mb-6">
-            <h1 
+            <h1
               className="text-2xl font-semibold mb-2"
               style={{ color: 'var(--kakaopay-text-primary)' }}
             >
-              {CATEGORIES[category as keyof typeof CATEGORIES] || category} 카테고리
+              {CATEGORIES[category as keyof typeof CATEGORIES] || category}{' '}
+              카테고리
             </h1>
             <p style={{ color: 'var(--kakaopay-text-secondary)' }}>
               {filteredPosts.length}개의 포스트
@@ -65,7 +71,7 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
           </div>
         )}
 
-        <BlogListingClient 
+        <BlogListingClient
           initialPosts={postsData}
           allPosts={allPostsData}
           categoryCounts={categoryCounts}
@@ -77,7 +83,7 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
       {/* Sidebar - KakaoPay 스타일 태그 클라우드 */}
       <div className="lg:col-span-1">
         <div className="kakaopay-card p-6">
-          <h3 
+          <h3
             className="text-lg font-semibold mb-4"
             style={{ color: 'var(--kakaopay-text-primary)' }}
           >
@@ -85,7 +91,10 @@ export default async function BlogListPage({ searchParams }: BlogListingPageProp
           </h3>
           <div className="flex flex-wrap gap-2">
             {Object.entries(CATEGORIES).map(([categoryId, categoryName]) => (
-              <Link key={categoryId} href={`/blog?category=${categoryId.toLowerCase()}`}>
+              <Link
+                key={categoryId}
+                href={`/blog?category=${categoryId.toLowerCase()}`}
+              >
                 <button className="tag-item">
                   {categoryName} ({categoryCounts[categoryId] || 0})
                 </button>

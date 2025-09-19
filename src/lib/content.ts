@@ -1,7 +1,11 @@
 import fs from 'fs'
 import path from 'path'
 import { BlogPost, BlogPostMetadata } from '@/types/blog'
-import { parseFrontmatter, validateFrontmatter, applyFrontmatterDefaults } from './frontmatter'
+import {
+  applyFrontmatterDefaults,
+  parseFrontmatter,
+  validateFrontmatter,
+} from './frontmatter'
 import { calculateReadingTime } from './markdown'
 
 const CONTENT_DIR = path.join(process.cwd(), 'content/posts')
@@ -11,9 +15,11 @@ const CONTENT_DIR = path.join(process.cwd(), 'content/posts')
  * @param post - Partial blog post data
  * @returns BlogPostMetadata - Complete metadata
  */
-export function generateContentMetadata(post: Partial<BlogPost>): BlogPostMetadata {
+export function generateContentMetadata(
+  post: Partial<BlogPost>
+): BlogPostMetadata {
   const readingTime = post.content ? calculateReadingTime(post.content) : 0
-  
+
   return {
     slug: post.slug || '',
     title: post.title || '',
@@ -23,10 +29,9 @@ export function generateContentMetadata(post: Partial<BlogPost>): BlogPostMetada
     category: post.category || 'general',
     tags: post.tags || [],
     author: post.author || 'Anonymous',
-    readingTime
+    readingTime,
   }
 }
-
 
 /**
  * Validate blog post data structure
@@ -54,7 +59,10 @@ export function validateBlogPost(post: unknown): post is BlogPost {
   }
 
   // Title length validation
-  if ((postObj.title as string).length < 5 || (postObj.title as string).length > 100) {
+  if (
+    (postObj.title as string).length < 5 ||
+    (postObj.title as string).length > 100
+  ) {
     return false
   }
 
@@ -64,12 +72,19 @@ export function validateBlogPost(post: unknown): post is BlogPost {
   }
 
   // Description length validation (if provided)
-  if (postObj.description && ((postObj.description as string).length < 10 || (postObj.description as string).length > 200)) {
+  if (
+    postObj.description &&
+    ((postObj.description as string).length < 10 ||
+      (postObj.description as string).length > 200)
+  ) {
     return false
   }
 
   // Tags validation - maximum 5 tags
-  if (postObj.tags && (!Array.isArray(postObj.tags) || (postObj.tags as string[]).length > 5)) {
+  if (
+    postObj.tags &&
+    (!Array.isArray(postObj.tags) || (postObj.tags as string[]).length > 5)
+  ) {
     return false
   }
 
@@ -123,7 +138,7 @@ export function getAllPosts(): BlogPost[] {
 export function getPostBySlug(slug: string): BlogPost | null {
   try {
     const fullPath = path.join(CONTENT_DIR, `${slug}.md`)
-    
+
     if (!fs.existsSync(fullPath)) {
       return null
     }
@@ -137,18 +152,20 @@ export function getPostBySlug(slug: string): BlogPost | null {
     }
 
     const frontmatterWithDefaults = applyFrontmatterDefaults(data)
-    
+
     const post: BlogPost = {
       slug,
       title: frontmatterWithDefaults.title,
       description: frontmatterWithDefaults.description,
       content,
       publishedAt: new Date(frontmatterWithDefaults.publishedAt),
-      updatedAt: frontmatterWithDefaults.updatedAt ? new Date(frontmatterWithDefaults.updatedAt) : undefined,
+      updatedAt: frontmatterWithDefaults.updatedAt
+        ? new Date(frontmatterWithDefaults.updatedAt)
+        : undefined,
       category: frontmatterWithDefaults.category,
       tags: frontmatterWithDefaults.tags,
       author: frontmatterWithDefaults.author,
-      readingTime: calculateReadingTime(content)
+      readingTime: calculateReadingTime(content),
     }
 
     return validateBlogPost(post) ? post : null
@@ -165,7 +182,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
  */
 export function getPostsByCategory(category: string): BlogPost[] {
   const allPosts = getAllPosts()
-  return allPosts.filter(post => post.category === category)
+  return allPosts.filter((post) => post.category === category)
 }
 
 /**
@@ -184,16 +201,16 @@ export function getFeaturedPosts(): BlogPost[] {
  * @returns BlogPost[] - Related posts
  */
 export function getRelatedPosts(post: BlogPost, limit: number = 3): BlogPost[] {
-  const allPosts = getAllPosts().filter(p => p.slug !== post.slug)
-  
+  const allPosts = getAllPosts().filter((p) => p.slug !== post.slug)
+
   const related = allPosts
-    .map(p => ({
+    .map((p) => ({
       post: p,
-      score: calculateRelatedScore(post, p)
+      score: calculateRelatedScore(post, p),
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
-    .map(item => item.post)
+    .map((item) => item.post)
 
   return related
 }
@@ -213,7 +230,7 @@ function calculateRelatedScore(post1: BlogPost, post2: BlogPost): number {
   }
 
   // Common tags
-  const commonTags = post1.tags.filter(tag => post2.tags.includes(tag))
+  const commonTags = post1.tags.filter((tag) => post2.tags.includes(tag))
   score += commonTags.length * 5
 
   // Same author

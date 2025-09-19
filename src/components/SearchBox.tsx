@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useState, useCallback, useEffect } from 'react'
 import { Search, X } from 'lucide-react'
-import { getButtonClasses, cn } from '@/lib/theme/utils'
+import React, { useCallback, useEffect, useState } from 'react'
+import { cn, getButtonClasses } from '@/lib/theme/utils'
 
 interface SearchBoxProps {
-  onSearch: (query: string) => void;
-  initialQuery?: string;
-  placeholder?: string;
-  debounceMs?: number;
-  isLoading?: boolean;
+  onSearch: (query: string) => void
+  initialQuery?: string
+  placeholder?: string
+  debounceMs?: number
+  isLoading?: boolean
 }
 
 export function SearchBox({
@@ -23,24 +23,30 @@ export function SearchBox({
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
 
   // Debounced search function
-  const debouncedSearch = useCallback((searchTerm: string) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-    }
+  const debouncedSearch = useCallback(
+    (searchTerm: string) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
 
-    const newTimeoutId = setTimeout(() => {
-      onSearch(searchTerm)
-    }, debounceMs)
+      const newTimeoutId = setTimeout(() => {
+        onSearch(searchTerm)
+      }, debounceMs)
 
-    setTimeoutId(newTimeoutId)
-  }, [onSearch, debounceMs, timeoutId])
+      setTimeoutId(newTimeoutId)
+    },
+    [onSearch, debounceMs, timeoutId]
+  )
 
   // Handle input change
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value
-    setValue(newValue)
-    debouncedSearch(newValue)
-  }, [debouncedSearch])
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      setValue(newValue)
+      debouncedSearch(newValue)
+    },
+    [debouncedSearch]
+  )
 
   // Handle clear button click
   const handleClear = useCallback(() => {
@@ -49,14 +55,17 @@ export function SearchBox({
   }, [onSearch])
 
   // Handle Enter key press
-  const handleKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (timeoutId) {
-        clearTimeout(timeoutId)
+  const handleKeyPress = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+        onSearch(value)
       }
-      onSearch(value)
-    }
-  }, [onSearch, value, timeoutId])
+    },
+    [onSearch, value, timeoutId]
+  )
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -70,8 +79,8 @@ export function SearchBox({
   return (
     <div className="relative">
       <div className="relative">
-        <Search 
-          size={18} 
+        <Search
+          size={18}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-kakao-text-dark-48"
         />
         <input
@@ -83,13 +92,16 @@ export function SearchBox({
           disabled={isLoading}
           className="w-full pl-10 pr-10 py-3 bg-transparent border border-kakao-medium-gray rounded-none text-kakao-dark-text placeholder:text-kakao-text-dark-48 focus:outline-none focus:border-kakao-yellow transition-colors font-noto-sans-kr"
         />
-        
+
         {/* Clear button with KakaoPay styling */}
         {value && !isLoading && (
           <button
             type="button"
             onClick={handleClear}
-            className={cn(getButtonClasses('secondary'), 'absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-kakao-light-gray transition-colors')}
+            className={cn(
+              getButtonClasses('secondary'),
+              'absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-kakao-light-gray transition-colors'
+            )}
           >
             <X size={16} className="text-kakao-text-dark-48" />
           </button>
@@ -98,7 +110,7 @@ export function SearchBox({
         {/* Loading indicator */}
         {isLoading && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <div 
+            <div
               className="h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"
               style={{ borderColor: 'var(--kakaopay-link)' }}
             ></div>

@@ -57,7 +57,7 @@ export async function getSiteStats() {
       totalTags: 0,
       averageReadingTime: 0,
       lastUpdated: new Date().toISOString(),
-      searchIndexSize: 0
+      searchIndexSize: 0,
     }
   }
 }

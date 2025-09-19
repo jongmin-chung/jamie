@@ -1,41 +1,69 @@
 'use client'
 
-import Link from 'next/link'
-import Logo from '@/components/Logo'
 import { Search } from 'lucide-react'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import Logo from '@/components/Logo'
 
 export default function Header() {
-  // 스크롤 상태 관리
-  const [scrollY, setScrollY] = useState(0)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const updateHeaderOnScroll = () => {
+      const scrollY = window.scrollY
+      const threshold = 50
+      const maxScroll = 150
 
-  // 스크롤에 따라 배경색 계산 (카카오페이 스타일: 스크롤을 내리면 불투명하게 변경)
-  const stickyBgClass = scrollY > 50 ? 'bg-kakao-dark-text' : 'bg-transparent'
+      // 스크롤 투명도 계산
+      const opacity = Math.min(
+        Math.max((scrollY - threshold) / (maxScroll - threshold), 0),
+        1
+      )
+      const isScrolled = scrollY > threshold
+
+      // DOM에서 헤더 직접 찾아서 스타일 업데이트 (React state 사용 안함)
+      const header = document.getElementById('main-header')
+      if (header) {
+        header.style.backgroundColor = `rgba(16, 20, 24, ${opacity})`
+        header.style.backdropFilter =
+          isScrolled && opacity > 0.3 ? 'blur(10px)' : 'none'
+        header.style.boxShadow =
+          isScrolled && opacity > 0.5 ? '0 2px 20px rgba(0, 0, 0, 0.1)' : 'none'
+      }
+    }
+
+    // 초기값 설정
+    updateHeaderOnScroll()
+
+    // 이벤트 리스너 등록
+    window.addEventListener('scroll', updateHeaderOnScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', updateHeaderOnScroll)
+    }
+  }, [])
 
   return (
     <>
       {/* Sticky Header - 항상 상단에 고정 */}
       <div
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${stickyBgClass}`}
+        id="main-header"
+        className="fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out"
+        style={{
+          backgroundColor: 'rgba(16, 20, 24, 0)',
+          transition: 'all 0.3s ease-out',
+        }}
       >
         <div className="mx-auto max-w-7xl px-6">
-          <div className="flex h-21 items-center"> {/* h-21 = 84px KakaoPay spec */}
+          <div className="flex h-21 items-center">
+            {' '}
+            {/* h-21 = 84px KakaoPay spec */}
             {/* 로고 (왼쪽) */}
             <div className="flex-none">
               <Link href="/" className="flex items-center">
                 <Logo className="h-8 w-auto min-w-[160px] text-white" />
               </Link>
             </div>
-
             {/* 오른쪽 영역 (네비게이션 + 검색) */}
             <div className="flex items-center ml-auto space-x-8">
               {/* 네비게이션 메뉴 */}

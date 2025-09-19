@@ -1,38 +1,38 @@
 'use client'
 
-import React from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import React from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { CATEGORIES, CATEGORY_COLORS } from '@/types/content'
 import { cn } from '@/lib/utils'
+import { CATEGORIES, CATEGORY_COLORS } from '@/types/content'
 
 interface CategoryFilterProps {
-  currentCategory?: string;
-  categoryCounts?: Record<string, number>;
-  className?: string;
+  currentCategory?: string
+  categoryCounts?: Record<string, number>
+  className?: string
 }
 
-export function CategoryFilter({ 
-  currentCategory, 
+export function CategoryFilter({
+  currentCategory,
   categoryCounts = {},
-  className 
+  className,
 }: CategoryFilterProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
   const handleCategoryChange = (category: string | null) => {
     const params = new URLSearchParams(searchParams)
-    
+
     if (category) {
       params.set('category', category)
     } else {
       params.delete('category')
     }
-    
+
     // Reset to first page when filtering
     params.delete('page')
-    
+
     const queryString = params.toString()
     const newPath = queryString ? `/blog?${queryString}` : '/blog'
     router.push(newPath)
@@ -43,7 +43,7 @@ export function CategoryFilter({
   return (
     <div className={cn('space-y-4', className)}>
       <h3 className="text-lg font-semibold text-foreground">카테고리</h3>
-      
+
       <div className="flex flex-wrap gap-2">
         {/* All Categories Button */}
         <Button
@@ -58,7 +58,10 @@ export function CategoryFilter({
           <span>전체</span>
           {!currentCategory && (
             <Badge variant="secondary" className="ml-1 text-xs">
-              {Object.values(categoryCounts).reduce((sum, count) => sum + count, 0)}
+              {Object.values(categoryCounts).reduce(
+                (sum, count) => sum + count,
+                0
+              )}
             </Badge>
           )}
         </Button>
@@ -80,16 +83,20 @@ export function CategoryFilter({
                 isActive && 'text-primary-foreground',
                 !isActive && 'hover:border-opacity-60'
               )}
-              style={isActive ? { 
-                backgroundColor: color,
-                borderColor: color,
-                color: 'white'
-              } : {}}
+              style={
+                isActive
+                  ? {
+                      backgroundColor: color,
+                      borderColor: color,
+                      color: 'white',
+                    }
+                  : {}
+              }
             >
               <span>{categoryName}</span>
               {count > 0 && (
-                <Badge 
-                  variant={isActive ? "secondary" : "outline"} 
+                <Badge
+                  variant={isActive ? 'secondary' : 'outline'}
                   className="ml-1 text-xs"
                 >
                   {count}
@@ -104,15 +111,17 @@ export function CategoryFilter({
       {currentCategory && (
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
           <span>현재 필터:</span>
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className="flex items-center space-x-1"
-            style={{ 
+            style={{
               borderColor: CATEGORY_COLORS[currentCategory],
-              color: CATEGORY_COLORS[currentCategory]
+              color: CATEGORY_COLORS[currentCategory],
             }}
           >
-            <span>{CATEGORIES[currentCategory as keyof typeof CATEGORIES]}</span>
+            <span>
+              {CATEGORIES[currentCategory as keyof typeof CATEGORIES]}
+            </span>
             <Button
               variant="ghost"
               size="sm"

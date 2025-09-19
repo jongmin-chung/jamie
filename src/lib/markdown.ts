@@ -1,9 +1,9 @@
+import rehypeHighlight from 'rehype-highlight'
+import rehypeSlug from 'rehype-slug'
+import rehypeStringify from 'rehype-stringify'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
-import rehypeSlug from 'rehype-slug'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeStringify from 'rehype-stringify'
 
 /**
  * Parse markdown content and convert to HTML
@@ -23,7 +23,7 @@ export async function parseMarkdown(markdown: string): Promise<string> {
       .use(rehypeHighlight, {
         // Configure syntax highlighting
         detect: true,
-        subset: ['javascript', 'typescript', 'html', 'css', 'json', 'bash']
+        subset: ['javascript', 'typescript', 'html', 'css', 'json', 'bash'],
       })
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(markdown)
@@ -43,31 +43,33 @@ export async function parseMarkdown(markdown: string): Promise<string> {
 export function extractPlainText(markdown: string): string {
   if (!markdown) return ''
 
-  return markdown
-    // Remove code blocks
-    .replace(/```[\s\S]*?```/g, '')
-    .replace(/`([^`]+)`/g, '$1')
-    // Remove headers
-    .replace(/^#{1,6}\s+/gm, '')
-    // Remove emphasis
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\*([^*]+)\*/g, '$1')
-    .replace(/__([^_]+)__/g, '$1')
-    .replace(/_([^_]+)_/g, '$1')
-    // Remove links
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    // Remove images
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
-    // Remove horizontal rules
-    .replace(/^---+$/gm, '')
-    // Remove list markers
-    .replace(/^\s*[-*+]\s+/gm, '')
-    .replace(/^\s*\d+\.\s+/gm, '')
-    // Remove blockquotes
-    .replace(/^>\s+/gm, '')
-    // Clean up whitespace
-    .replace(/\n\s*\n/g, '\n')
-    .trim()
+  return (
+    markdown
+      // Remove code blocks
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`([^`]+)`/g, '$1')
+      // Remove headers
+      .replace(/^#{1,6}\s+/gm, '')
+      // Remove emphasis
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/_([^_]+)_/g, '$1')
+      // Remove links
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      // Remove images
+      .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+      // Remove horizontal rules
+      .replace(/^---+$/gm, '')
+      // Remove list markers
+      .replace(/^\s*[-*+]\s+/gm, '')
+      .replace(/^\s*\d+\.\s+/gm, '')
+      // Remove blockquotes
+      .replace(/^>\s+/gm, '')
+      // Clean up whitespace
+      .replace(/\n\s*\n/g, '\n')
+      .trim()
+  )
 }
 
 /**
@@ -79,13 +81,13 @@ export function calculateReadingTime(markdown: string): number {
   if (!markdown) return 0
 
   const plainText = extractPlainText(markdown)
-  const words = plainText.split(/\s+/).filter(word => word.length > 0)
-  
+  const words = plainText.split(/\s+/).filter((word) => word.length > 0)
+
   // Average reading speed: 200 words per minute
   // For Korean text, we might adjust this slightly
   const wordsPerMinute = 200
   const readingTime = Math.ceil(words.length / wordsPerMinute)
-  
+
   return Math.max(1, readingTime) // Minimum 1 minute
 }
 
@@ -95,9 +97,9 @@ export function calculateReadingTime(markdown: string): number {
  * @returns Array of heading objects
  */
 export function extractHeadings(markdown: string): Array<{
-  level: number;
-  text: string;
-  slug: string;
+  level: number
+  text: string
+  slug: string
 }> {
   if (!markdown) return []
 

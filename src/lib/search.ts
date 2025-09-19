@@ -1,7 +1,7 @@
 import FlexSearch from 'flexsearch'
 import { SearchIndex, SearchResult } from '@/types/search'
 
-type FlexSearchIndex = FlexSearch.Index;
+type FlexSearchIndex = FlexSearch.Index
 
 /**
  * Create a search engine from search index
@@ -9,28 +9,26 @@ type FlexSearchIndex = FlexSearch.Index;
  * @param options - Search engine options
  * @returns Search engine instance
  */
-export function createSearchEngine(
-  searchIndex: SearchIndex,
-): {
-  titleIndex: FlexSearchIndex;
-  contentIndex: FlexSearchIndex;
-  descriptionIndex: FlexSearchIndex;
-  searchIndex: SearchIndex;
+export function createSearchEngine(searchIndex: SearchIndex): {
+  titleIndex: FlexSearchIndex
+  contentIndex: FlexSearchIndex
+  descriptionIndex: FlexSearchIndex
+  searchIndex: SearchIndex
 } {
   // Create separate indexes for different fields with different weights
   const titleIndex = new FlexSearch.Index({
     encode: 'simple',
-    cache: 100
+    cache: 100,
   })
 
   const contentIndex = new FlexSearch.Index({
     encode: 'simple',
-    cache: 100
+    cache: 100,
   })
 
   const descriptionIndex = new FlexSearch.Index({
     encode: 'simple',
-    cache: 100
+    cache: 100,
   })
 
   // Build indexes
@@ -44,7 +42,7 @@ export function createSearchEngine(
     titleIndex,
     contentIndex,
     descriptionIndex,
-    searchIndex
+    searchIndex,
   }
 }
 
@@ -57,10 +55,10 @@ export function createSearchEngine(
  */
 export function searchPosts(
   searchEngine: {
-    titleIndex: FlexSearchIndex;
-    contentIndex: FlexSearchIndex;
-    descriptionIndex: FlexSearchIndex;
-    searchIndex: SearchIndex;
+    titleIndex: FlexSearchIndex
+    contentIndex: FlexSearchIndex
+    descriptionIndex: FlexSearchIndex
+    searchIndex: SearchIndex
   },
   query: string,
   limit: number = 10
@@ -70,11 +68,20 @@ export function searchPosts(
   }
 
   const normalizedQuery = normalizeKoreanText(query.toLowerCase().trim())
-  
+
   // Search in different fields with different weights
-  const titleResults = searchEngine.titleIndex.search(normalizedQuery, limit * 2)
-  const contentResults = searchEngine.contentIndex.search(normalizedQuery, limit * 2)
-  const descriptionResults = searchEngine.descriptionIndex.search(normalizedQuery, limit * 2)
+  const titleResults = searchEngine.titleIndex.search(
+    normalizedQuery,
+    limit * 2
+  )
+  const contentResults = searchEngine.contentIndex.search(
+    normalizedQuery,
+    limit * 2
+  )
+  const descriptionResults = searchEngine.descriptionIndex.search(
+    normalizedQuery,
+    limit * 2
+  )
 
   // Combine results with scoring
   const combinedResults = new Map<number, { index: number; score: number }>()
@@ -113,7 +120,7 @@ export function searchPosts(
         category: item.category,
         tags: item.tags,
         publishedAt: item.publishedAt,
-        score
+        score,
       }
     })
 
@@ -126,16 +133,19 @@ export function searchPosts(
  * @param category - Category to filter by
  * @returns SearchResult[] - Filtered results
  */
-export function searchByCategory(searchIndex: SearchIndex, category: string): SearchResult[] {
+export function searchByCategory(
+  searchIndex: SearchIndex,
+  category: string
+): SearchResult[] {
   return searchIndex
-    .filter(item => item.category === category)
-    .map(item => ({
+    .filter((item) => item.category === category)
+    .map((item) => ({
       id: item.id,
       title: item.title,
       description: item.description,
       category: item.category,
       tags: item.tags,
-      publishedAt: item.publishedAt
+      publishedAt: item.publishedAt,
     }))
 }
 
@@ -145,16 +155,19 @@ export function searchByCategory(searchIndex: SearchIndex, category: string): Se
  * @param tags - Tags to filter by
  * @returns SearchResult[] - Filtered results
  */
-export function searchByTags(searchIndex: SearchIndex, tags: string[]): SearchResult[] {
+export function searchByTags(
+  searchIndex: SearchIndex,
+  tags: string[]
+): SearchResult[] {
   return searchIndex
-    .filter(item => tags.some(tag => item.tags.includes(tag)))
-    .map(item => ({
+    .filter((item) => tags.some((tag) => item.tags.includes(tag)))
+    .map((item) => ({
       id: item.id,
       title: item.title,
       description: item.description,
       category: item.category,
       tags: item.tags,
-      publishedAt: item.publishedAt
+      publishedAt: item.publishedAt,
     }))
 }
 
@@ -167,10 +180,10 @@ export function searchByTags(searchIndex: SearchIndex, tags: string[]): SearchRe
  */
 export function getSearchSuggestions(
   searchEngine: {
-    titleIndex: FlexSearchIndex;
-    contentIndex: FlexSearchIndex;
-    descriptionIndex: FlexSearchIndex;
-    searchIndex: SearchIndex;
+    titleIndex: FlexSearchIndex
+    contentIndex: FlexSearchIndex
+    descriptionIndex: FlexSearchIndex
+    searchIndex: SearchIndex
   },
   query: string,
   limit: number = 5
@@ -182,18 +195,24 @@ export function getSearchSuggestions(
   const results = searchPosts(searchEngine, query, limit * 2)
   const suggestions = new Set<string>()
 
-  results.forEach(result => {
+  results.forEach((result) => {
     // Extract words from title that match the query
     const titleWords = result.title.split(/\s+/)
-    titleWords.forEach(word => {
-      if (word.toLowerCase().includes(query.toLowerCase()) && suggestions.size < limit) {
+    titleWords.forEach((word) => {
+      if (
+        word.toLowerCase().includes(query.toLowerCase()) &&
+        suggestions.size < limit
+      ) {
         suggestions.add(word)
       }
     })
 
     // Extract tags that match the query
-    result.tags.forEach(tag => {
-      if (tag.toLowerCase().includes(query.toLowerCase()) && suggestions.size < limit) {
+    result.tags.forEach((tag) => {
+      if (
+        tag.toLowerCase().includes(query.toLowerCase()) &&
+        suggestions.size < limit
+      ) {
         suggestions.add(tag)
       }
     })
@@ -208,12 +227,14 @@ export function getSearchSuggestions(
  * @returns string - Normalized text
  */
 function normalizeKoreanText(text: string): string {
-  return text
-    // Remove special characters but keep Korean, alphanumeric, and spaces
-    .replace(/[^\w\sㄱ-ㅎㅏ-ㅣ가-힣]/g, ' ')
-    // Normalize multiple spaces
-    .replace(/\s+/g, ' ')
-    .trim()
+  return (
+    text
+      // Remove special characters but keep Korean, alphanumeric, and spaces
+      .replace(/[^\w\sㄱ-ㅎㅏ-ㅣ가-힣]/g, ' ')
+      // Normalize multiple spaces
+      .replace(/\s+/g, ' ')
+      .trim()
+  )
 }
 
 /**
@@ -230,7 +251,7 @@ export function highlightSearchTerms(text: string, query: string): string {
   const terms = query.toLowerCase().split(/\s+/)
   let highlightedText = text
 
-  terms.forEach(term => {
+  terms.forEach((term) => {
     if (term.length > 1) {
       const regex = new RegExp(`(${term})`, 'gi')
       highlightedText = highlightedText.replace(regex, '<mark>$1</mark>')

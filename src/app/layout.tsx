@@ -55,9 +55,16 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children}: { readonly children: React.ReactNode; }) {
+export default function RootLayout({
+  children,
+}: {
+  readonly children: React.ReactNode
+}) {
   return (
     <html lang="ko">
+      <head>
+        <script src="/header-scroll.js" defer></script>
+      </head>
       <body className={notoSansKR.className}>
         <Header />
         {children}

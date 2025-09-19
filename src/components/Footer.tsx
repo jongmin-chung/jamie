@@ -1,8 +1,8 @@
 'use client'
 
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
 import { kakaoPayTheme } from '@/lib/theme/kakaopay-theme'
-import { ChevronDown, ChevronUp } from 'lucide-react'
 
 export default function Footer() {
   const footerData = kakaoPayTheme.components.footer
@@ -16,17 +16,21 @@ export default function Footer() {
           <p className="text-kakao-text-dark-48 text-sm font-noto-sans-kr mb-6">
             {footerData.copyright}
           </p>
-          
+
           {/* Related Sites Dropdown - KakaoPay Style */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => setIsRelatedSitesOpen(!isRelatedSitesOpen)}
               className="flex items-center justify-between w-full md:w-72 border border-kakao-light-gray px-4 py-3 bg-white text-kakao-dark-text font-noto-sans-kr text-sm"
             >
               <span>관련 사이트</span>
-              {isRelatedSitesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {isRelatedSitesOpen ? (
+                <ChevronUp size={16} />
+              ) : (
+                <ChevronDown size={16} />
+              )}
             </button>
-            
+
             {isRelatedSitesOpen && (
               <div className="absolute z-10 w-full md:w-72 bg-white border border-kakao-light-gray border-t-0 mt-0">
                 <ul className="py-2">

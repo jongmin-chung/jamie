@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import { CATEGORIES } from '@/types/content'
 import { getAllPosts } from './content'
 import { generateSearchIndex, serializeSearchIndex } from './search-index'
-import { CATEGORIES } from '@/types/content'
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public')
 
@@ -29,10 +29,12 @@ export async function generateStaticData(): Promise<void> {
     // Write search index
     const searchIndexPath = path.join(PUBLIC_DIR, 'search-index.json')
     fs.writeFileSync(searchIndexPath, searchIndexJson, 'utf8')
-    console.log(`🔍 Generated search index: ${(searchIndexJson.length / 1024).toFixed(1)}KB`)
+    console.log(
+      `🔍 Generated search index: ${(searchIndexJson.length / 1024).toFixed(1)}KB`
+    )
 
     // Generate posts metadata for client-side use
-    const postsMetadata = allPosts.map(post => ({
+    const postsMetadata = allPosts.map((post) => ({
       slug: post.slug,
       title: post.title,
       description: post.description,
@@ -41,30 +43,41 @@ export async function generateStaticData(): Promise<void> {
       category: post.category,
       tags: post.tags,
       author: post.author,
-      readingTime: post.readingTime
+      readingTime: post.readingTime,
     }))
 
     const metadataPath = path.join(PUBLIC_DIR, 'posts-metadata.json')
-    fs.writeFileSync(metadataPath, JSON.stringify(postsMetadata, null, 0), 'utf8')
+    fs.writeFileSync(
+      metadataPath,
+      JSON.stringify(postsMetadata, null, 0),
+      'utf8'
+    )
     console.log(`📄 Generated posts metadata: ${postsMetadata.length} posts`)
 
     // Generate categories with post counts
     const categories = Object.entries(CATEGORIES).map(([id, name]) => ({
       id,
       name,
-      postCount: allPosts.filter(post => post.category === id).length
+      postCount: allPosts.filter((post) => post.category === id).length,
     }))
 
     const categoriesPath = path.join(PUBLIC_DIR, 'categories.json')
-    fs.writeFileSync(categoriesPath, JSON.stringify(categories, null, 0), 'utf8')
+    fs.writeFileSync(
+      categoriesPath,
+      JSON.stringify(categories, null, 0),
+      'utf8'
+    )
     console.log(`🏷️  Generated categories: ${categories.length} categories`)
 
     // Generate tags with usage counts
-    const allTags = allPosts.flatMap(post => post.tags)
-    const tagCounts = allTags.reduce((acc, tag) => {
-      acc[tag] = (acc[tag] || 0) + 1
-      return acc
-    }, {} as Record<string, number>)
+    const allTags = allPosts.flatMap((post) => post.tags)
+    const tagCounts = allTags.reduce(
+      (acc, tag) => {
+        acc[tag] = (acc[tag] || 0) + 1
+        return acc
+      },
+      {} as Record<string, number>
+    )
 
     const tags = Object.entries(tagCounts)
       .map(([name, count]) => ({ id: name, name, count }))
@@ -80,10 +93,11 @@ export async function generateStaticData(): Promise<void> {
       totalCategories: categories.length,
       totalTags: tags.length,
       averageReadingTime: Math.round(
-        allPosts.reduce((sum, post) => sum + post.readingTime, 0) / allPosts.length
+        allPosts.reduce((sum, post) => sum + post.readingTime, 0) /
+          allPosts.length
       ),
       lastUpdated: new Date().toISOString(),
-      searchIndexSize: searchIndexJson.length
+      searchIndexSize: searchIndexJson.length,
     }
 
     const statsPath = path.join(PUBLIC_DIR, 'site-stats.json')
@@ -91,7 +105,6 @@ export async function generateStaticData(): Promise<void> {
     console.log(`📊 Generated site statistics`)
 
     console.log('✅ Static data generation completed successfully!')
-
   } catch (error) {
     console.error('❌ Error generating static data:', error)
     throw error
@@ -103,16 +116,19 @@ export async function generateStaticData(): Promise<void> {
  */
 export function generateBlogPostPaths(): Array<{ params: { slug: string } }> {
   const allPosts = getAllPosts()
-  
-  return allPosts.map(post => ({
-    params: { slug: post.slug }
+
+  return allPosts.map((post) => ({
+    params: { slug: post.slug },
   }))
 }
 
 /**
  * Validate static generation requirements
  */
-export function validateStaticGeneration(): { isValid: boolean; errors: string[] } {
+export function validateStaticGeneration(): {
+  isValid: boolean
+  errors: string[]
+} {
   const errors: string[] = []
 
   // Check if content directory exists
@@ -133,7 +149,7 @@ export function validateStaticGeneration(): { isValid: boolean; errors: string[]
     if (!fs.existsSync(publicDir)) {
       fs.mkdirSync(publicDir, { recursive: true })
     }
-    
+
     const testFile = path.join(publicDir, '.write-test')
     fs.writeFileSync(testFile, 'test', 'utf8')
     fs.unlinkSync(testFile)
@@ -143,7 +159,7 @@ export function validateStaticGeneration(): { isValid: boolean; errors: string[]
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   }
 }
 
@@ -154,12 +170,12 @@ export function cleanStaticFiles(): void {
   const filesToClean = [
     'search-index.json',
     'posts-metadata.json',
-    'categories.json', 
+    'categories.json',
     'tags.json',
-    'site-stats.json'
+    'site-stats.json',
   ]
 
-  filesToClean.forEach(filename => {
+  filesToClean.forEach((filename) => {
     const filePath = path.join(PUBLIC_DIR, filename)
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath)
@@ -173,25 +189,28 @@ export function cleanStaticFiles(): void {
  * Get build-time statistics
  */
 export function getBuildStats(): {
-  postsCount: number;
-  categoriesCount: number;
-  tagsCount: number;
-  totalContentSize: number;
-  buildTime: string;
+  postsCount: number
+  categoriesCount: number
+  tagsCount: number
+  totalContentSize: number
+  buildTime: string
 } {
   const allPosts = getAllPosts()
-  const totalContentSize = allPosts.reduce((sum, post) => sum + post.content.length, 0)
-  
-  const allTags = allPosts.flatMap(post => post.tags)
+  const totalContentSize = allPosts.reduce(
+    (sum, post) => sum + post.content.length,
+    0
+  )
+
+  const allTags = allPosts.flatMap((post) => post.tags)
   const uniqueTags = [...new Set(allTags)]
-  
-  const uniqueCategories = [...new Set(allPosts.map(post => post.category))]
+
+  const uniqueCategories = [...new Set(allPosts.map((post) => post.category))]
 
   return {
     postsCount: allPosts.length,
     categoriesCount: uniqueCategories.length,
     tagsCount: uniqueTags.length,
     totalContentSize,
-    buildTime: new Date().toISOString()
+    buildTime: new Date().toISOString(),
   }
 }
