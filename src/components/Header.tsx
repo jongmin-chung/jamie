@@ -1,14 +1,18 @@
 'use client'
 
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Logo from '@/components/Logo'
+import MobileMenu from '@/components/MobileMenu'
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   useEffect(() => {
+    // 서버 사이드 렌더링 중에는 실행하지 않음
+    if (typeof window === 'undefined') return;
+
     const updateHeaderOnScroll = () => {
       const scrollY = window.scrollY
       const threshold = 50
@@ -25,10 +29,18 @@ export default function Header() {
       const header = document.getElementById('main-header')
       if (header) {
         header.style.backgroundColor = `rgba(16, 20, 24, ${opacity})`
-        header.style.backdropFilter =
-          isScrolled && opacity > 0.3 ? 'blur(10px)' : 'none'
-        header.style.boxShadow =
-          isScrolled && opacity > 0.5 ? '0 2px 20px rgba(0, 0, 0, 0.1)' : 'none'
+        
+        if (isScrolled && opacity > 0.3) {
+          header.style.backdropFilter = 'blur(10px)'
+        } else {
+          header.style.backdropFilter = 'none'
+        }
+        
+        if (isScrolled && opacity > 0.5) {
+          header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)'
+        } else {
+          header.style.boxShadow = 'none'
+        }
       }
     }
 
@@ -52,6 +64,8 @@ export default function Header() {
         style={{
           backgroundColor: 'rgba(16, 20, 24, 0)',
           transition: 'all 0.3s ease-out',
+          backdropFilter: 'none',
+          boxShadow: 'none'
         }}
       >
         <div className="mx-auto max-w-7xl px-6">
@@ -66,7 +80,6 @@ export default function Header() {
             </div>
             {/* 오른쪽 영역 (네비게이션 + 검색) */}
             <div className="flex items-center ml-auto space-x-8">
-              {/* 네비게이션 메뉴 */}
               <nav className="hidden md:flex items-center">
                 <ul className="flex space-x-8 items-center">
                   <li>
@@ -78,9 +91,20 @@ export default function Header() {
                     </Link>
                   </li>
                   <li>
-                    <span className="text-white text-base font-noto-sans-kr cursor-pointer">
-                      Career
-                    </span>
+                    <Link
+                      href="/categories"
+                      className="text-white hover:text-kakao-yellow transition-colors text-base font-noto-sans-kr"
+                    >
+                      카테고리
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/tags"
+                      className="text-white hover:text-kakao-yellow transition-colors text-base font-noto-sans-kr"
+                    >
+                      태그
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -95,6 +119,11 @@ export default function Header() {
                   <Search size={20} />
                 </button>
               </div>
+              
+              {/* 모바일 메뉴 */}
+              <div className="md:hidden">
+                <MobileMenu />
+              </div>
             </div>
           </div>
         </div>
@@ -104,11 +133,21 @@ export default function Header() {
       {isSearchOpen && (
         <div className="fixed top-21 left-0 w-full bg-white z-40 shadow-md">
           <div className="max-w-7xl mx-auto px-6 py-4">
-            <input
-              type="text"
-              placeholder="검색어를 입력하세요."
-              className="w-full p-2 border border-kakao-light-gray rounded-none font-noto-sans-kr"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="검색어를 입력하세요."
+                className="w-full p-2 border border-kakao-light-gray rounded-none font-noto-sans-kr"
+                autoFocus
+              />
+              <button 
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700"
+                onClick={() => setIsSearchOpen(false)}
+                aria-label="검색 닫기"
+              >
+                <X size={18} />
+              </button>
+            </div>
           </div>
         </div>
       )}

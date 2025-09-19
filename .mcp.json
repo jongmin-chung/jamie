@@ -4,7 +4,14 @@
       "command": "bash",
       "args": [
         "-c",
-        "export PATH=/Users/jaime/.nvm/versions/node/v22.18.0/bin:$PATH && npx @playwright/mcp"
+        "export PATH=/Users/jongminchung/.nvm/versions/node/v22.18.0/bin:$PATH && npx @playwright/mcp"
+      ]
+    },
+    "Context7": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "export PATH=/Users/jongminchung/.nvm/versions/node/v24.7.0/bin:$PATH && npx @upstash/context7-mcp@latest"
       ]
     }
   }

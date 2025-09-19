@@ -54,8 +54,8 @@ const BlogPostLayout: React.FC<BlogPostLayoutProps> = ({
       {/* Back button */}
       <div className="max-w-screen-xl mx-auto w-full px-4 py-8">
         <Link
-          href="/blog"
-          className="inline-flex items-center text-gray-700 hover:text-yellow-500 transition-colors"
+          href="/"
+          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
         >
           <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
             <svg
@@ -70,7 +70,7 @@ const BlogPostLayout: React.FC<BlogPostLayoutProps> = ({
                 clipRule="evenodd"
               />
             </svg>
-            블로그 목록
+            Tech Log
           </button>
         </Link>
       </div>
@@ -181,25 +181,6 @@ const BlogPostLayout: React.FC<BlogPostLayoutProps> = ({
                 <p className="text-gray-700">{authorBio}</p>
               </div>
             </div>
-
-            {/* Back to blog list button */}
-            <Link href="/blog" className="inline-block mt-4">
-              <button className="flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                블로그 목록으로 돌아가기
-              </button>
-            </Link>
           </article>
 
           {/* Table of contents - right sidebar */}

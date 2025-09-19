@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { BlogListingClient } from '@/components/BlogListingClient'
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
 import { getAllPosts, getPostsByCategory } from '@/lib/content'
 import { CATEGORIES } from '@/types/content'
 
@@ -13,7 +14,6 @@ export default async function BlogListPage({
   const params = await searchParams
   const category =
     typeof params.category === 'string' ? params.category : undefined
-  const searchQuery = typeof params.search === 'string' ? params.search : ''
 
   // Server-side data fetching
   const allPosts = getAllPosts()
@@ -28,29 +28,6 @@ export default async function BlogListPage({
       (post) => post.category === categoryId
     ).length
   })
-
-  // Convert posts to serializable format
-  const postsData = filteredPosts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    description: post.description,
-    publishedAt: post.publishedAt.toISOString(),
-    category: post.category,
-    tags: post.tags,
-    author: post.author,
-    readingTime: post.readingTime,
-  }))
-
-  const allPostsData = allPosts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    description: post.description,
-    publishedAt: post.publishedAt.toISOString(),
-    category: post.category,
-    tags: post.tags,
-    author: post.author,
-    readingTime: post.readingTime,
-  }))
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -71,13 +48,76 @@ export default async function BlogListPage({
           </div>
         )}
 
-        <BlogListingClient
-          initialPosts={postsData}
-          allPosts={allPostsData}
-          categoryCounts={categoryCounts}
-          initialCategory={category}
-          initialSearchQuery={searchQuery}
-        />
+        {/* 포스트 목록 */}
+        <div className="space-y-6">
+          {filteredPosts.map((post) => (
+            <article
+              key={post.slug}
+              className="kakaopay-card p-6 group cursor-pointer"
+            >
+              <Link href={`/blog/${post.slug}`} className="block">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* 이미지 플레이스홀더 */}
+                  <div className="md:col-span-1">
+                    <div className="w-full h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg group-hover:from-gray-200 group-hover:to-gray-300 transition-all duration-200"></div>
+                  </div>
+
+                  {/* 콘텐츠 */}
+                  <div className="md:col-span-2">
+                    <div className="mb-2">
+                      <span
+                        className="inline-block px-2 py-1 text-xs font-medium rounded"
+                        style={{
+                          backgroundColor: 'var(--kakaopay-hover)',
+                          color: 'var(--kakaopay-text-secondary)',
+                        }}
+                      >
+                        {post.category}
+                      </span>
+                    </div>
+
+                    <h2
+                      className="text-xl font-semibold mb-3 group-hover:underline line-clamp-2"
+                      style={{ color: 'var(--kakaopay-text-primary)' }}
+                    >
+                      {post.title}
+                    </h2>
+
+                    <p
+                      className="text-sm mb-3 line-clamp-2"
+                      style={{ color: 'var(--kakaopay-text-secondary)' }}
+                    >
+                      {post.description}
+                    </p>
+
+                    <div
+                      className="flex items-center text-xs space-x-3"
+                      style={{ color: 'var(--kakaopay-text-muted)' }}
+                    >
+                      <span>{post.author}</span>
+                      <span>•</span>
+                      <time dateTime={post.publishedAt.toISOString()}>
+                        {format(post.publishedAt, 'yyyy.MM.dd', {
+                          locale: ko,
+                        })}
+                      </time>
+                      <span>•</span>
+                      <span>{post.readingTime}분 읽기</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
+
+          {filteredPosts.length === 0 && (
+            <div className="text-center py-12">
+              <p style={{ color: 'var(--kakaopay-text-muted)' }}>
+                포스트가 없습니다.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Sidebar - KakaoPay 스타일 태그 클라우드 */}

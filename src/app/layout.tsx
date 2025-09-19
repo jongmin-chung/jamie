@@ -70,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={jetbrainsMono.variable}>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <script src="/header-scroll.js" defer></script>
       </head>
       <body className={notoSansKR.className}>

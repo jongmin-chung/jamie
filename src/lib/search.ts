@@ -16,20 +16,9 @@ export function createSearchEngine(searchIndex: SearchIndex): {
   searchIndex: SearchIndex
 } {
   // Create separate indexes for different fields with different weights
-  const titleIndex = new FlexSearch.Index({
-    encode: 'simple',
-    cache: 100,
-  })
-
-  const contentIndex = new FlexSearch.Index({
-    encode: 'simple',
-    cache: 100,
-  })
-
-  const descriptionIndex = new FlexSearch.Index({
-    encode: 'simple',
-    cache: 100,
-  })
+  const titleIndex = new FlexSearch.Index()
+  const contentIndex = new FlexSearch.Index()
+  const descriptionIndex = new FlexSearch.Index()
 
   // Build indexes
   searchIndex.forEach((item, index) => {

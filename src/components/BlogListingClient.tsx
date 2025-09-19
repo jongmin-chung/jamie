@@ -5,7 +5,7 @@ import { ko } from 'date-fns/locale'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { SearchBox } from '@/components/SearchBox'
-import { createSearchEngine, searchPosts } from '@/lib/search'
+// import { createSearchEngine, searchPosts } from '@/lib/search'
 
 interface BlogListingClientProps {
   initialPosts: {
@@ -44,23 +44,24 @@ export function BlogListingClient({
   const [currentPage, setCurrentPage] = useState(1)
   const [isSearching, setIsSearching] = useState(false)
   const [currentQuery, setCurrentQuery] = useState(initialSearchQuery || '')
-  const [searchEngine, setSearchEngine] = useState<ReturnType<
-    typeof createSearchEngine
-  > | null>(null)
+  // const [searchEngine, setSearchEngine] = useState<ReturnType<
+  //   typeof createSearchEngine
+  // > | null>(null)
 
   // 검색 엔진 초기화
   useEffect(() => {
-    const searchData = allPosts.map((post) => ({
-      id: post.slug,
-      title: post.title,
-      description: post.description,
-      content: post.description,
-      category: post.category,
-      tags: post.tags,
-      publishedAt: post.publishedAt,
-    }))
-    const engine = createSearchEngine(searchData)
-    setSearchEngine(engine)
+    // Temporarily disabled search functionality
+    // const searchData = allPosts.map((post) => ({
+    //   id: post.slug,
+    //   title: post.title,
+    //   description: post.description,
+    //   content: post.description,
+    //   category: post.category,
+    //   tags: post.tags,
+    //   publishedAt: post.publishedAt,
+    // }))
+    // const engine = createSearchEngine(searchData)
+    // setSearchEngine(engine)
   }, [allPosts])
 
   // 검색 처리
@@ -76,27 +77,13 @@ export function BlogListingClient({
 
     setIsSearching(true)
 
-    if (searchEngine) {
-      const searchResults = await searchPosts(searchEngine, query)
-      // 검색 결과를 기존 포스트 형식으로 변환
-      const matchedPosts = searchResults.map((result) => {
-        const originalPost = allPosts.find((post) => post.slug === result.id)
-        return (
-          originalPost || {
-            slug: result.id,
-            title: result.title,
-            description: result.description,
-            publishedAt: result.publishedAt,
-            category: result.category,
-            tags: result.tags,
-            author: '작성자',
-            readingTime: 5,
-          }
-        )
-      })
-      setDisplayPosts(matchedPosts)
-    }
-
+    // Temporary basic search without FlexSearch
+    const matchedPosts = allPosts.filter(post => 
+      post.title.toLowerCase().includes(query.toLowerCase()) || 
+      post.description.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    setDisplayPosts(matchedPosts)
     setIsSearching(false)
   }
 
@@ -147,17 +134,7 @@ export function BlogListingClient({
                         color: 'var(--kakaopay-text-secondary)',
                       }}
                     >
-                      {post.category === 'Development'
-                        ? '개발'
-                        : post.category === 'Design'
-                          ? '디자인'
-                          : post.category === 'Career'
-                            ? '커리어'
-                            : post.category === 'Tech'
-                              ? '기술'
-                              : post.category === 'Trend'
-                                ? '트렌드'
-                                : post.category}
+                      {post.category}
                     </span>
                   </div>
 
