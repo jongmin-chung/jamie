@@ -5,13 +5,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate-data && next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
-    "generate-data": "node -r esbuild-register scripts/generate-static-data.js"
+    "generate-data": "node -r esbuild-register scripts/generate-static-data.js",
+    "bundle-analyzer": "npx @next/bundle-analyzer",
+    "size-check": "node scripts/bundle-check.js",
+    "build:size-check": "npm run build && npm run size-check"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

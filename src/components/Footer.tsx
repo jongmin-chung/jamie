@@ -2,10 +2,30 @@
 
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
-import { kakaoPayTheme } from '@/lib/theme/kakaopay-theme'
+
+const footerData = {
+  copyright: '© Kakao pay corp.',
+  links: [
+    {
+      text: '카카오페이 브랜드사이트',
+      url: 'https://www.kakaopay.com/',
+    },
+    {
+      text: '카카오페이 개발자센터',
+      url: 'https://developers.kakaopay.com/',
+    },
+    {
+      text: '카카오페이 블로그',
+      url: 'https://blog.kakaopay.com/',
+    },
+    {
+      text: '카카오페이 유튜브',
+      url: 'https://www.youtube.com/channel/UCiC-E0YuAr836x0yptINkJw',
+    },
+  ],
+}
 
 export default function Footer() {
-  const footerData = kakaoPayTheme.components.footer
   const [isRelatedSitesOpen, setIsRelatedSitesOpen] = useState(false)
 
   return (

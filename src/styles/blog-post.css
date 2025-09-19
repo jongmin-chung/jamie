@@ -6,15 +6,9 @@
   --blog-link-color: #f9a825;
   --blog-code-bg: #f5f5f5;
   --blog-blockquote-border: #f9a825;
-  --blog-heading-font:
-    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", sans-serif;
-  --blog-body-font:
-    "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", sans-serif;
-  --blog-code-font: "Menlo", "Monaco", "Courier New", monospace;
+  --blog-heading-font: "Noto Sans KR", sans-serif;
+  --blog-body-font: "Noto Sans KR", sans-serif;
+  --blog-code-font: "JetBrains Mono", "Menlo", "Monaco", "Courier New", monospace;
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
@@ -128,9 +122,7 @@
   border-radius: 0.25rem;
   font-size: 0.9375rem;
   color: #333;
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
+  font-family: var(--blog-code-font);
 }
 
 .blog-post-content pre code {

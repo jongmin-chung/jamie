@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @import "../styles/blog-post.css";
 
@@ -18,8 +18,7 @@
 
   body {
     @apply text-kakao-dark-text;
-    font-family:
-      "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Malgun Gothic", "맑은 고딕", Dotum, "돋움", Gulim, "굴림";
+    font-family: "Noto Sans KR", sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -103,6 +102,168 @@
   .animate-fade-in-up-delay-2 {
     opacity: 0;
   }
+
+  /* 태그 클라우드 애니메이션 - GPU 가속화 */
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .animate-float-fast {
+    animation: float-fast 4s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .animate-tag-glow {
+    animation: tag-glow 2s ease-in-out infinite alternate;
+    will-change: box-shadow;
+  }
+
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes float-fast {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-6px) rotate(2deg);
+    }
+    75% {
+      transform: translateY(6px) rotate(-2deg);
+    }
+  }
+
+  @keyframes tag-glow {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 235, 59, 0.3);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(255, 235, 59, 0.6), 0 0 30px rgba(255, 235, 59, 0.4);
+    }
+  }
+
+  @keyframes progress-bar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 70%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-progress-bar {
+    animation: progress-bar 2s ease-in-out;
+    will-change: width;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-slide-in-left {
+    animation: slide-in-left 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotate-in {
+    from {
+      opacity: 0;
+      transform: rotate(10deg) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  .animate-rotate-in {
+    animation: rotate-in 0.6s ease-out;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Performance optimization for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -129,6 +290,19 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    
+    /* KakaoPay Brand Colors */
+    --kakao-yellow: #FFEB00;
+    --kakao-yellow-hover: #E6D300;
+    --kakao-dark-text: #060B11;
+    --kakao-gray-text: #4A5568;
+    --kakao-light-text: #718096;
+    --kakao-background-light: #FAFAFA;
+    --kakao-border-light: #E2E8F0;
+    --kakao-success: #38A169;
+    --kakao-warning: #D69E2E;
+    --kakao-error: #E53E3E;
+    --kakao-info: #3182CE;
   }
   .dark {
     --background: 0 0% 3.9%;

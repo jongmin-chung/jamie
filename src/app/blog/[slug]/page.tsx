@@ -9,15 +9,15 @@ import { getPostBySlug, getRelatedPosts } from '@/lib/content'
 import { parseMarkdown } from '@/lib/markdown'
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = params
+  const { slug } = await params
   const post = getPostBySlug(slug)
 
   if (!post) {
@@ -56,7 +56,7 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = params
+  const { slug } = await params
   const post = getPostBySlug(slug)
 
   if (!post) {

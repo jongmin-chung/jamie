@@ -32,6 +32,7 @@ export interface BlogPostPreview {
   tags: string[]
   author: string
   readingTime: number
+  thumbnail?: string
 }
 
 export interface FrontmatterData {

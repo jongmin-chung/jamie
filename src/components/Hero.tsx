@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { kakaoPayTheme } from '@/lib/theme/kakaopay-theme'
 import {
   cn,
   getContainerClasses,
@@ -12,8 +11,8 @@ interface HeroProps {
 }
 
 export function Hero({
-  title = kakaoPayTheme.components.hero.title,
-  subtitle = kakaoPayTheme.components.hero.subtitle,
+  title = 'Tech Log',
+  subtitle = '서비스를 만드는 크루들의 기술 노하우와 경험을 공유합니다.',
 }: HeroProps) {
   return (
     <div className="relative">
