@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
-
-@import "../styles/blog-post.css";
-
 @layer base {
   * {
     @apply border-kakao-medium-gray;

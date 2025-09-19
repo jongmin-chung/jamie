@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Block Styling Test</title>
+  <style>
+    /* Import JetBrains Mono font */
+    @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+    
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 2rem;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Code block styling - Atom One Dark theme */
+    pre {
+      background: #282c34 !important;
+      border: 1px solid #3e4451;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin: 1.5em 0;
+      padding: 1.25rem;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    pre code {
+      background: transparent;
+      color: #abb2bf;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      font-feature-settings: "liga" 0;
+      -webkit-font-smoothing: antialiased;
+      display: block;
+    }
+    
+    /* Inline code styling */
+    :not(pre) > code {
+      background: #f5f5f5;
+      color: #24292e;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 0.875em;
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+      border: none;
+    }
+    
+    /* Mobile responsive styling */
+    @media (max-width: 640px) {
+      pre {
+        padding: 1rem;
+        margin: 1.25em 0;
+        border-radius: 0.375rem;
+      }
+      
+      pre code {
+        font-size: 0.8125rem;
+        white-space: pre;
+      }
+      
+      :not(pre) > code {
+        font-size: 0.8125em;
+        padding: 0.15em 0.3em;
+      }
+    }
+    
+    /* Syntax highlighting */
+    .keyword { color: #c678dd; }
+    .comment { color: #7f848e; font-style: italic; }
+    .string { color: #98c379; }
+    .number { color: #d19a66; }
+    .function { color: #61afef; }
+    .class { color: #e5c07b; }
+  </style>
+</head>
+<body>
+  <h1>카카오페이 스타일 코드 블록 테스트</h1>
+  
+  <p>다음은 <code>JetBrains Mono</code> 폰트와 <code>Atom One Dark</code> 테마가 적용된 코드 블록입니다:</p>
+  
+  <pre><code><span class="keyword">import</span> sentencepiece <span class="keyword">as</span> spm
+
+<span class="comment"># Initialize SentencePiece model</span>
+sp = spm.SentencePieceProcessor()
+sp.load(<span class="string">'spm.model'</span>)
+
+<span class="comment"># Encode text to ids</span>
+ids = sp.encode_as_ids(<span class="string">"Hello world"</span>)
+<span class="function">print</span>(ids)  <span class="comment"># [151, 88]</span>
+
+<span class="comment"># Decode ids back to text</span>
+text = sp.decode_ids(ids)
+<span class="function">print</span>(text)  <span class="comment"># Hello world</span></code></pre>
+
+  <p>
+    또한 <code>인라인 코드</code>도 JetBrains Mono 폰트로 스타일링되어 있습니다.
+    모바일에서는 코드 블록에 가로 스크롤이 적용되고, 넉넉한 패딩이 적용됩니다.
+  </p>
+  
+  <pre><code><span class="keyword">function</span> <span class="function">calculateTotal</span>(items) {
+  <span class="keyword">return</span> items
+    .map(<span class="function">item</span> => item.price * item.quantity)
+    .reduce(<span class="function">(sum, current)</span> => sum + current, <span class="number">0</span>);
+}
+
+<span class="keyword">const</span> shoppingCart = [
+  { id: <span class="string">'item1'</span>, name: <span class="string">'Product A'</span>, price: <span class="number">10000</span>, quantity: <span class="number">2</span> },
+  { id: <span class="string">'item2'</span>, name: <span class="string">'Product B'</span>, price: <span class="number">25000</span>, quantity: <span class="number">1</span> },
+  { id: <span class="string">'item3'</span>, name: <span class="string">'Product C'</span>, price: <span class="number">5000</span>, quantity: <span class="number">3</span> }
+];
+
+<span class="keyword">const</span> total = <span class="function">calculateTotal</span>(shoppingCart);
+<span class="function">console.log</span>(<span class="string">`Total: ${total}원`</span>);  <span class="comment">// "Total: 50000원"</span></code></pre>
+</body>
+</html>

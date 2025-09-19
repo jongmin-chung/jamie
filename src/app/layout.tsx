@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Noto_Sans_KR } from 'next/font/google'
+import { Noto_Sans_KR, JetBrains_Mono } from 'next/font/google'
 import Footer from '@/components/Footer'
 import './globals.css'
 import 'highlight.js/styles/github-dark.css'
 import './code-highlight.css'
-import '../styles/blog-post.css'
+import './blog-post.css'
 import React from 'react'
 import Header from '@/components/Header'
 
@@ -12,6 +12,13 @@ const notoSansKR = Noto_Sans_KR({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono', // CSS 변수로 사용할 수 있도록 설정
 })
 
 export const metadata: Metadata = {
@@ -61,7 +68,7 @@ export default function RootLayout({
   readonly children: React.ReactNode
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={jetbrainsMono.variable}>
       <head>
         <script src="/header-scroll.js" defer></script>
       </head>

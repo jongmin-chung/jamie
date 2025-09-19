@@ -2,19 +2,21 @@
 
 /* Override highlight.js background to match our design */
 .prose pre code.hljs {
-  background: #0d1117;
-  color: #c9d1d9;
-  font-family:
-    "JetBrains Mono", "Fira Code", Consolas, Monaco, "Courier New", monospace;
+  background: #282c34; /* Atom One Dark background */
+  color: #abb2bf; /* Atom One Dark text color */
+  font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.875rem;
   line-height: 1.5;
+  font-feature-settings: "liga" 0; /* Disable ligatures for better readability */
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Ensure inline code has different styling */
 .prose :not(pre) > code {
-  background: hsl(var(--muted)) !important;
-  color: hsl(var(--primary)) !important;
-  font-weight: 600;
+  background: #f5f5f5 !important;
+  color: #24292e !important;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-weight: 500;
   font-size: 0.875em;
   padding: 0.2em 0.4em;
   border-radius: 0.25rem;
@@ -23,11 +25,14 @@
 
 /* Make sure pre blocks are properly styled */
 .prose pre {
-  background: #0d1117 !important;
-  border: 1px solid hsl(var(--border));
+  background: #282c34 !important; /* Atom One Dark background */
+  border: 1px solid #3e4451; /* Atom One Dark border color */
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 1.5em 0;
+  padding: 1.25rem; /* Generous padding */
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Add language label styling */
@@ -37,10 +42,11 @@
   top: 0.5rem;
   right: 0.75rem;
   font-size: 0.75rem;
-  color: #8b949e;
+  color: #9da5b4; /* Atom One Dark comment color */
   text-transform: uppercase;
   letter-spacing: 0.025em;
   z-index: 1;
+  font-family: var(--font-jetbrains-mono), monospace;
 }
 
 /* Position relative for language labels */
@@ -54,17 +60,17 @@
 }
 
 .prose pre::-webkit-scrollbar-track {
-  background: #21262d;
+  background: #353b45; /* Atom One Dark scrollbar track */
   border-radius: 0.25rem;
 }
 
 .prose pre::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: #5c6370; /* Atom One Dark scrollbar thumb */
   border-radius: 0.25rem;
 }
 
 .prose pre::-webkit-scrollbar-thumb:hover {
-  background: #484f58;
+  background: #6e7787; /* Atom One Dark scrollbar thumb hover */
 }
 
 /* Copy button positioning */
@@ -74,9 +80,35 @@
   right: 0.5rem;
   opacity: 0;
   transition: opacity 0.2s;
+  background: #3e4451; /* Atom One Dark button background */
+  color: #abb2bf; /* Atom One Dark text color */
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
 }
 
 .prose pre:hover + .copy-button,
 .copy-button:hover {
   opacity: 1;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 640px) {
+  .prose pre {
+    padding: 1rem;
+    margin: 1.25em 0;
+    border-radius: 0.375rem;
+  }
+  
+  .prose pre code.hljs {
+    font-size: 0.8125rem;
+    white-space: pre;
+  }
+  
+  .prose :not(pre) > code {
+    font-size: 0.8125em;
+    padding: 0.15em 0.3em;
+  }
 }
